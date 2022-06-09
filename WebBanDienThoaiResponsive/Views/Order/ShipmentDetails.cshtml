@@ -1,0 +1,70 @@
+﻿@using WebBanDienThoaiResponsive.Models
+@model WebBanDienThoaiResponsive.ViewModels.PayDetailsViewModel
+@{
+    ViewBag.Title = "ShipmentDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h4 class="text-danger"><b>THÔNG TIN ĐẶT HÀNG</b></h4>
+    <div>
+        <div class="row ml-md-2 mr-md-2">
+        </div>
+        <div class="row ml-md-2 mr-md-2">
+            <div class="col-md-3 p-md-0">
+                <h6 class="text-center font-weight-bold text-danger">Đăng nhập</h6>
+                <hr class="border rounded-left bg-warning h-25" />
+            </div>
+            <div class="col-md-3 p-md-0">
+                <h6 class="text-center font-weight-bold text-danger">Thông tin</h6>
+                <hr class="border bg-warning h-25" />
+            </div>
+            <div class="col-md-3 p-md-0">
+                <h6 class="text-center font-weight-bold text-danger">Thanh toán</h6>
+                <hr class="border bg-gray h-25" />
+            </div>
+            <div class="col-md-3 p-md-0">
+                <h6 class="text-center font-weight-bold text-danger">Hoàn thành</h6>
+                <hr class="border rounded-right bg-gray h-25" />
+            </div>
+        </div>
+    </div>
+    <div class="row mt-md-2">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            @using (Html.BeginForm("CreateShipmentDetails", "Order"))
+            {
+                @Html.AntiForgeryToken()
+                if (Session["Account"] == null)
+                {
+                    <button type="button"
+                            class="btn btn-danger btn-lg btn-block text-uppercase"
+                            onclick="location.href = '@Url.Action("Signin", "Account")'">
+                        Đăng nhập lại
+                    </button>
+                }
+                else
+                {
+                    <div class="rounded border border-1 pt-md-3 pl-md-3 pr-md-3 pb-md-1 mb-md-2">
+                        <h5 class="font-weight-bold">Thông tin người đặt (Cho việc bảo hành)</h5>
+                        @Html.TextBox("FullName", ViewBag.UserAccount.FullName as string, new { @class = "form-control mb-md-2", type = "text", placeholder = "Họ và tên (Bắt buộc)" })
+                        @Html.TextBox("PhoneNumber", ViewBag.UserAccount.PhoneNumber as string, new { @class = "form-control mb-md-2", type = "tel", placeholder = "Số điện thoại (Bắt buộc)" })
+                        @Html.TextBox("Email", ViewBag.UserAccount.Email as string, new { @class = "form-control mb-md-2", type = "email", placeholder = "Email (Bắt buộc)" })
+                    </div>
+                }
+                <div class="rounded border border-1 pt-md-1 pl-md-3 pr-md-3 pb-md-1 mb-md-2">
+                    <h5 class="font-weight-bold mt-md-3">Thông tin người nhận</h5>
+                    @Html.TextBoxFor(p => p.OrderFullName, new { @class = "form-control mb-md-2", type = "text", placeholder = "Họ và tên người nhận (Bắt buộc)" })
+                    @Html.ValidationMessageFor(p => p.OrderFullName, "", new { @class = "text-center text-danger" })
+                    @Html.TextBoxFor(p => p.OrderPhoneNumber, new { @class = "form-control mb-md-2", type = "tel", placeholder = "Số điện thoại người nhận (Bắt buộc)" })
+                    @Html.ValidationMessageFor(p => p.OrderPhoneNumber, "", new { @class = "text-center text-danger" })
+                    @Html.TextBoxFor(p => p.OrderAddress, new { @class = "form-control mb-md-2", type = "text", placeholder = "Địa chỉ giao (Bắt buộc)" })
+                    @Html.ValidationMessageFor(p => p.OrderAddress, "", new { @class = "text-center text-danger" })
+                    @Html.TextAreaFor(p => p.OrderNote, new { @class = "form-control", style = "resize: none;", rows = "5", placeholder = "Ghi chú thêm (Không bắt buộc)" })
+                </div>
+                <button type="submit" class="btn btn-danger btn-lg btn-block text-uppercase">Tiếp tục</button>
+            }
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>

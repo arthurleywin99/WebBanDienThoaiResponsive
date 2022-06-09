@@ -1,0 +1,101 @@
+﻿@using WebBanDienThoaiResponsive.Models
+@using WebBanDienThoaiResponsive.ViewModels 
+@model WebBanDienThoaiResponsive.Models.Order
+@{
+    ViewBag.Title = "OrderingConfirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    @Html.Action("ProductTypes", "Home")
+    <h4 class="text-danger"><b>THÔNG TIN ĐẶT HÀNG</b></h4>
+    <div>
+        <div class="row ml-md-2 mr-md-2">
+        </div>
+        <div class="row ml-md-2 mr-md-2">
+            <div class="col-md-3 p-md-0">
+                <h6 class="text-center font-weight-bold text-danger">Đăng nhập</h6>
+                <hr class="border rounded-left bg-warning h-25" />
+            </div>
+            <div class="col-md-3 p-md-0">
+                <h6 class="text-center font-weight-bold text-danger">Thông tin</h6>
+                <hr class="border bg-warning h-25" />
+            </div>
+            <div class="col-md-3 p-md-0">
+                <h6 class="text-center font-weight-bold text-danger">Thanh toán</h6>
+                <hr class="border bg-warning h-25" />
+            </div>
+            <div class="col-md-3 p-md-0">
+                <h6 class="text-center font-weight-bold text-danger">Hoàn thành</h6>
+                <hr class="border rounded-right bg-warning h-25" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="rounded border border-1 pt-md-3 pl-md-3 pr-md-3 pb-md-1 mb-md-2">
+                <h5 class="mb-md-4">Cám ơn bạn đã đặt hàng. Chúng tôi sẽ liên hệ với bạn vào thời gian sớm nhất.</h5>
+            </div>
+            <div class="rounded border border-1 pt-md-3 pl-md-3 pr-md-3 pb-md-1 mb-md-2">
+                <h4 class="text-center font-weight-bold text-primary">Thông tin đơn hàng</h4>
+                <div class="row m-md-1">
+                    <div class="col-md-4">
+                        <p class="font-weight-bold">Mã đơn hàng</p>
+                        <p class="font-weight-bold">Ngày đặt</p>
+                        <p class="font-weight-bold">Ngày giao dự kiến</p>
+                        <p class="font-weight-bold">Người nhận</p>
+                        <p class="font-weight-bold">Địa chỉ nhận</p>
+                        <p class="font-weight-bold">Số điện thoại nhận</p>
+                        <p class="font-weight-bold">Tổng tiền</p>
+                        <p class="font-weight-bold">Hình thức thanh toán</p>
+                        <p class="font-weight-bold">Ghi chú</p>
+                    </div>
+                    <div class="col-md-8">
+                        @{
+                            Order order = Session["Order"] as Order;
+                        }
+                        <p>@order.ID</p>
+                        <p>@order.OrderDate</p>
+                        <p>@order.DeliveryDate</p>
+                        <p>@order.OrderName</p>
+                        <p>@order.OrderAddress</p>
+                        <p>@order.OrderPhone</p>
+                        <p>@order.Total</p>
+                        <p>@(order.IsPaid == true ? "Thanh toán trực tuyến" : "Thanh toán khi nhận hàng")</p>
+                        <p>@(order.Note == null ? "" : ViewBag.Order.Note)</p>
+                    </div>
+                </div>
+            </div> 
+            <div class="rounded border border-1 pt-md-3 pl-md-3 pr-md-3 pb-md-1 mb-md-2">
+                <h6 class="text-center font-weight-bold text-secondary text-uppercase">Chi tiểt các món đã đặt</h6>
+                @{ 
+                    List<ShoppingCartViewModel> list = Session["Cart"] as List<ShoppingCartViewModel>;
+                }
+                @foreach (var item in list)
+                {
+                    <div class="row m-md-1">
+                        <div class="col-md-2">
+                            <img src="~/Content/Images/@item.ImageUrl" width="50" alt="@item.ProductName" />
+                        </div>
+                        <div class="col-md-7">
+                            <p class="font-weight-bold">@item.ProductName</p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-md-flex">
+                                <p>Số lượng:&nbsp;</p>
+                                <p class="font-weight-bold">@item.Quantity</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <button type="button"
+                    class="btn btn-danger btn-lg btn-block text-uppercase"
+                    onclick="location.href = '@Url.Action("Confirmed", "Order")'">
+                Quay lại trang chủ
+            </button>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>

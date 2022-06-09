@@ -1,0 +1,61 @@
+﻿@model WebBanDienThoaiResponsive.ViewModels.PayDetailsViewModel
+@{
+    ViewBag.Title = "PaymentDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h4 class="text-danger"><b>THÔNG TIN ĐẶT HÀNG</b></h4>
+    <div>
+        <div class="row ml-md-2 mr-md-2">
+        </div>
+        <div class="row ml-md-2 mr-md-2">
+            <div class="col-md-3 p-md-0">
+                <h6 class="text-center font-weight-bold text-danger">Đăng nhập</h6>
+                <hr class="border rounded-left bg-warning h-25" />
+            </div>
+            <div class="col-md-3 p-md-0">
+                <h6 class="text-center font-weight-bold text-danger">Thông tin</h6>
+                <hr class="border bg-warning h-25" />
+            </div>
+            <div class="col-md-3 p-md-0">
+                <h6 class="text-center font-weight-bold text-danger">Thanh toán</h6>
+                <hr class="border bg-warning h-25" />
+            </div>
+            <div class="col-md-3 p-md-0">
+                <h6 class="text-center font-weight-bold text-danger">Hoàn thành</h6>
+                <hr class="border rounded-right bg-gray h-25" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            @using (Html.BeginForm("AddPayment", "Order"))
+            {
+                <div class="rounded border border-1 pt-md-3 pl-md-3 pr-md-3 pb-md-1 mb-md-2">
+                    <h4 class="text-center font-weight-bold">Chọn hình thức thanh toán</h4>
+
+                    <div class="input-group mb-md-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                @Html.RadioButtonFor(p => p.IsPaid, false, new { @name = "radio", type = "radio" })
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" value="Thanh toán khi nhận hàng" disabled>
+                    </div>
+                    <div class="input-group mb-md-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                @Html.RadioButtonFor(p => p.IsPaid, true, new { @name = "radio", type = "radio" })
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" value="Thanh toán trực tuyến" disabled>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-danger btn-lg btn-block text-uppercase">Đặt hàng</button>
+            }
+            </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>

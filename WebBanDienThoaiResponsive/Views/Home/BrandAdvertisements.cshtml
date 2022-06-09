@@ -1,0 +1,13 @@
+﻿@model IEnumerable<WebBanDienThoaiResponsive.Models.BrandAdvertisement>
+
+<h4><b>CHUYÊN TRANG THƯƠNG HIỆU</b></h4>
+<div class="row d-flex justify-content-around">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3">
+            <div class="card">
+                <img class="card-img-top" src="~/Content/Images/@item.ImageURL" alt="@item.BrandAdName">
+            </div>
+        </div>
+    }
+</div>

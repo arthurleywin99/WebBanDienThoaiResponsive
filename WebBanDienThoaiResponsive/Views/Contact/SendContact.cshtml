@@ -1,0 +1,90 @@
+﻿@using WebBanDienThoaiResponsive
+@model WebBanDienThoaiResponsive.ViewModels.ContactViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            @using (Html.BeginForm("SendContact", "Contact"))
+            {
+                @Html.AntiForgeryToken()
+                <h4 class="font-weight-bold border-left border-warning pl-md-2 text-uppercase" style="border-left-width: 5px !important;">Apple Store xin hân hạnh hỗ trợ quý khách</h4>
+                <div class="rounded border border-secondary p-md-2">
+                    <div class="row ml-md-2">
+                        <div class="col-md-6 text-left d-md-flex align-items-center">Quý khách đang quan tâm:</div>
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(p => p.IDProblem, new SelectList(ViewBag.ProblemContacts, "ID", "Content"), new { @class = "custom-select", id = "inputGroupSelect01" })
+                        </div>
+                    </div>
+
+                    <div class="row ml-md-2">
+                        <div class="col-md-4 text-left d-md-flex align-items-center pt-md-0 pb-md-3">Tiêu đề:</div>
+                        <div class="col-md-8 pt-md-0 pb-md-3">
+                            @Html.TextBoxFor(p => p.Title, new { @class = "form-control", type = "text" })
+                            @Html.ValidationMessageFor(p => p.Title, "", new { @class = "text-center text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row ml-md-2">
+                        <div class="col-md-4 text-left d-md-flex align-items-baseline pt-md-0 pb-md-3">Nội dung:</div>
+                        <div class="col-md-8 pt-md-0 pb-md-3">
+                            @Html.TextAreaFor(p => p.Content, new { @class = "form-control", style = "resize: none;", rows = "4" })
+                            @Html.ValidationMessageFor(p => p.Content, "", new { @class = "text-center text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row ml-md-2">
+                        <div class="col-md-4 text-left d-md-flex align-items-center pt-md-0 pb-md-3">Họ Tên:</div>
+                        <div class="col-md-8 pt-md-0 pb-md-3">
+                            @Html.TextBoxFor(p => p.Fullname, new { @class = "form-control", type = "text" })
+                            @Html.ValidationMessageFor(p => p.Fullname, "", new { @class = "text-center text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row ml-md-2">
+                        <div class="col-md-4 text-left d-md-flex align-items-center pt-md-0 pb-md-3">Địa chỉ email:</div>
+                        <div class="col-md-8 pt-md-0 pb-md-3">
+                            @Html.TextBoxFor(p => p.Email, new { @class = "form-control", id = "email", type = "email" })
+                            @Html.ValidationMessageFor(p => p.Email, "", new { @class = "text-center text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row ml-md-2">
+                        <div class="col-md-4 text-left d-md-flex align-items-center pt-md-0 pb-md-3">Số điện thoại:</div>
+                        <div class="col-md-8 pt-md-0 pb-md-3">
+                            @Html.TextBoxFor(p => p.PhoneNumber, new { @class = "form-control", type = "text" })
+                            @Html.ValidationMessageFor(p => p.PhoneNumber, "", new { @class = "text-center text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block mt-md-3 text-uppercase">Gửi liên hệ</button>
+            }
+        </div>
+        <div class="col-7">
+            <h4 class="font-weight-bold border-left border-warning pl-md-2 text-uppercase" style="border-left-width: 5px !important;">Thông tin liên hệ khác</h4>
+            <hr class="mr-md-4" />
+            <div class="d-md-flex">
+                <h5>Hợp tác, liên hệ:&nbsp;</h5>
+                <h5 class="text-primary">phongnhansu@@applestore.com</h5>
+            </div>
+            <div class="d-md-flex">
+                <h5>Tổng đài tư vấn, hỗ trợ khách hàng (7h30 đến 21h):&nbsp;</h5>
+                <h5 class="text-warning font-weight-bold">0354.321.915</h5>
+            </div>
+            <div class="d-md-flex">
+                <h5>Tổng đài khiếu nại:&nbsp;</h5>
+                <h5 class="text-warning font-weight-bold">0354.321.915</h5>
+            </div>
+            <div class="d-md-flex">
+                <h5>Ẹmail:&nbsp;</h5>
+                <h5 class="text-primary">cskh@@applestore.com</h5>
+            </div>
+            <div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1346.040565319615!2d106.77425167236028!3d10.831476619202341!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527010fcb280b%3A0xbece03f175c4325c!2zMjcsIDEgxJDGsOG7nW5nIFPhu5EgMTQ3LCBQaMaw4bubYyBMb25nIEIsIFF14bqtbiA5LCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1654404618436!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </div>
+</div>

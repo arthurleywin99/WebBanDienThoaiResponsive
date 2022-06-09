@@ -1,0 +1,47 @@
+﻿@using WebBanDienThoaiResponsive.Models
+@using PagedList.Mvc 
+@model PagedList.PagedList<Product>
+
+@{
+    ViewBag.Title = "SearchData";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h4><b>KẾT QUẢ TÌM KIẾM</b></h4>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3">
+                <div class="card">
+                    <a class="text-decoration-none" href="@Url.Action("ProductDetails", "Product", new { Id = item.ID })">
+                        <img class="card-img-top" src="~/Content/Images/@item.ImageURL" alt="@item.ProductName">
+                    </a>
+                    <div class="card-body">
+                        <a class="text-decoration-none" href="@Url.Action("ProductDetails", "Product", new { Id = item.ID })">
+                            <h5 class="card-title">@item.ProductName</h5>
+                        </a>
+                        <h6 class="card-title font-weight-bold text-danger">@item.Price&nbsp;đ</h6>
+                        <h6 class="card-title font-weight-bold"><s>@item.Price&nbsp;đ</s></h6>
+                        <div class="rating">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <nav aria-label="...">
+        <ul class="pagination pagination-lg justify-content-center">
+            <li class="page-item"><a class="page-link" href="@Url.Action("SearchData", "Search", new { page = 1 })">1</a></li>
+            @for (int i = 2; i <= Model.PageCount; ++i)
+            {
+                <li class="page-item"><a class="page-link" href="@Url.Action("SearchData", "Search", new { page = i })">@i</a></li>
+            }
+        </ul>
+    </nav>
+</div>

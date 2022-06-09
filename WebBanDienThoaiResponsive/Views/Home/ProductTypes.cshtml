@@ -1,0 +1,17 @@
+﻿@model IEnumerable<WebBanDienThoaiResponsive.Models.ProductType>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-producttype rounded mb-2">
+    <div class="navbar-collapse justify-content-center">
+        <div class="navbar-nav">
+            @foreach (var item in Model)
+            {
+                <div class="d-inline-flex">
+                    <a class="nav-item nav-link d-block text-center" href="@Url.Action("ProductsByProductType", "Product", new { id = item.ID })">
+                        <i class="@item.IconURL text-light"></i>
+                        <span class="d-block text-uppercase text-light">@item.ProductTypeName</span>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</nav>

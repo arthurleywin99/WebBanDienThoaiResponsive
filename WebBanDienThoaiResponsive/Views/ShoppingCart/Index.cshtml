@@ -1,0 +1,83 @@
+﻿@using WebBanDienThoaiResponsive.ViewModels
+@model IEnumerable<WebBanDienThoaiResponsive.ViewModels.ShoppingCartViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <h4><b>GIỎ HÀNG</b></h4>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-3 p-md-0"></div>
+                <div class="col-md-7 p-md-0"></div>
+                <div class="col-md-2 p-md-0">
+                    <div class="font-weight-bold text-uppercase text-right mr-md-4 text-secondary" style="font-size: 12px;">Giá</div>
+                </div>
+            </div>
+            @foreach (var item in Model)
+            {
+                <div class="row rounded border border-secondary p-md-2 mb-md-1">
+                    <div class="col-md-3">
+                        <img class="img-thumbnail mx-auto d-block rounded float-left w-75" src="~/Content/Images/products/dienthoai/samsung/samsunggalaxys22ultra5g128gb/samsunggalaxys22ultra5g128gb.jpg" alt="Alternate Text" />
+                    </div>
+                    <div class="col-md-5 p-md-1">
+                        <h5 class="font-weight-bold">@item.ProductName</h5>
+                        <h6 class="text-success">Còn hàng</h6>
+                        <div class="d-md-flex">
+                            <div class="text-center d-md-flex align-items-center mr-md-2">Số lượng: </div>
+                            <input class="form-control"
+                                   type="number"
+                                   style="width: 20% !important;"
+                                   value="@item.Quantity" />
+                        </div>
+                        <div class="d-md-flex">
+                            <h5>Giá tiền:&nbsp;</h5>
+                            <h5 class="font-weight-bold text-danger">@item.Price</h5>
+                        </div>
+                        <button type="button" class="btn btn-danger">Xoá khỏi giỏ hàng</button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="font-weight-bold text-danger text-right" style="font-size: 22px;">@(item.Price * item.Quantity) VNĐ</div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-3">
+            @{
+                List<ShoppingCartViewModel> list = Model as List<ShoppingCartViewModel>;
+                int quantity = list.Count;
+                long sum = list.Sum(p => p.Quantity * p.Price);
+            }
+            <div class="rounded border border-secondary p-md-4">
+                <div class="d-md-flex">
+                    <h6>Tổng số sản phẩm:&nbsp;</h6>
+                    <h6 class="font-weight-bold text-success">@quantity</h6>
+                </div>
+                <div class="d-md-flex">
+                    <h6>Phí ship:&nbsp;</h6>
+                    <h6 class="font-weight-bold text-success">30.000 VNĐ</h6>
+                </div>
+                <div class="d-md-flex">
+                    <h6>Giá:&nbsp;</h6>
+                    <h6 class="font-weight-bold text-success">@sum</h6>
+                </div>
+                <hr />
+                <div class="d-md-flex">
+                    <h6>Tổng tiền:&nbsp;</h6>
+                    <h6 class="font-weight-bold text-danger">@(sum + 30000) VNĐ</h6>
+                </div>
+                <button type="button"
+                        class="btn btn-danger btn-lg btn-block p-md-2 text-uppercase font-weight-bold"
+                        onclick="location.href = '@Url.Action("OrderingAction", "Order")'">
+                    Đặt hàng
+                </button>
+                <button type="button"
+                        class="btn btn-outline-info btn-lg btn-block p-md-2 text-uppercase font-weight-bold"
+                        onclick="location.href = '@Url.Action("Index", "Home")'">
+                    Chọn thêm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

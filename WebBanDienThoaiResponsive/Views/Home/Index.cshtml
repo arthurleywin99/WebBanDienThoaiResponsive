@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <!--NAVBAR LOẠI SẢN PHẨM-->
+    @Html.Action("ProductTypes", "Home")
+    <!--SLIDER-->
+    @Html.Action("CarouselSlider", "Home")
+    <!--MID BANNER-->
+    @Html.Action("MidBanner", "Home")
+    <!--ĐIỆN THOẠI NỔI BẬT-->
+    @Html.Action("TopCellPhones", "Home")
+    <!--LAPTOP NỔI BẬT-->
+    @Html.Action("TopLaptops", "Home")
+    <!--CHUYÊN TRANG THƯƠNG HIỆU-->
+    @Html.Action("BrandAdvertisements", "Home")
+</div>
