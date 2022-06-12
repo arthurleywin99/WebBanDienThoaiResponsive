@@ -15,8 +15,16 @@ namespace WebBanDienThoaiResponsive.CustomModelStateValidation
             {
                 return false;
             }
-            const string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{8,24}$";
-            return Regex.IsMatch(value.ToString().Trim(), pattern);
+            Regex hasNumber = new Regex(@"[0-9]+");
+            Regex hasUpperChar = new Regex(@"[A-Z]+");
+            Regex hasLowerChar = new Regex(@"[a-z]+");
+            Regex hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
+            Regex hasRange = new Regex(@".{8,24}");
+            return hasNumber.IsMatch(value.ToString())
+                && hasUpperChar.IsMatch(value.ToString())
+                && hasLowerChar.IsMatch(value.ToString())
+                && hasSymbols.IsMatch(value.ToString())
+                && hasRange.IsMatch(value.ToString());
         }
     }
 }

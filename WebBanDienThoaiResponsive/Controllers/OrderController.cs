@@ -62,6 +62,7 @@ namespace WebBanDienThoaiResponsive.Controllers
 
                 Order order = new Order();
                 order.ID = Guid.NewGuid();
+                order.MemberID = account.ID;
                 order.OrderDate = DateTime.Now;
                 order.OrderStatus = Utility.PENDING;
                 order.DeliveryDate = order.OrderDate.AddDays(Utility.DELIVERY_DAYS);

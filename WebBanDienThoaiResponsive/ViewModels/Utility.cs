@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -32,29 +33,42 @@ namespace WebBanDienThoaiResponsive.ViewModels
         public static string PENDING = "Đang Xử Lý";
         public static int DELIVERY_DAYS = 3;
 
-        public static async Task<bool> SendMail(string _from, string _to, string _subject, string _body, SmtpClient client)
+        public static bool SendMail(string _to, string subject, string content)
         {
-            MailMessage message = new MailMessage(
-                from: _from,
-                to: _to,
-                subject: _subject,
-                body: _body
-            );
-            message.BodyEncoding = System.Text.Encoding.UTF8;
-            message.SubjectEncoding = System.Text.Encoding.UTF8;
-            message.IsBodyHtml = true;
-            message.ReplyToList.Add(new MailAddress(_from));
-            message.Sender = new MailAddress(_from);
-
-
             try
             {
-                await client.SendMailAsync(message);
+                var host = ConfigurationManager.AppSettings["SMTPHost"];
+                var port = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
+                var fromEmail = ConfigurationManager.AppSettings["FromEmailAddress"];
+                var password = ConfigurationManager.AppSettings["FromEmailPassword"];
+                var fromName = ConfigurationManager.AppSettings["FromName"];
+
+                SmtpClient smtpClient = new SmtpClient(host, port)
+                {
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromName, password),
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    EnableSsl = true,
+                    Timeout = 100000
+                };
+
+                MailMessage mail = new MailMessage
+                {
+                    Body = content,
+                    Subject = subject,
+                    From = new MailAddress(fromEmail, fromName)
+                };
+                mail.To.Add(new MailAddress(_to));
+                mail.BodyEncoding = Encoding.UTF8;
+                mail.IsBodyHtml = true;
+                mail.Priority = MailPriority.High;
+
+                smtpClient.Send(mail);
                 return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                var ans = ex.ToString();
                 return false;
             }
         }

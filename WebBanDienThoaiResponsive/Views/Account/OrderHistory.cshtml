@@ -1,58 +1,128 @@
-﻿
+﻿@model IEnumerable<WebBanDienThoaiResponsive.Models.Order>
 @{
     ViewBag.Title = "OrderHistory";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container">
-    <h4><b>THÔNG TIN TÀI KHOẢN</b></h4>
     <div class="row">
         <div class="col-md-3">
             <div class="rounded border border-gray" style="border-radius: 15px !important;">
-                <div class="d-flex">
-                    <div class="col-md-3 ml-md-3">
-                        <i class="fal fa-home" style="font-size: 28px;"></i>
+                <a href="@Url.Action("AccountDetail", "Account")" class="d-flex text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-home text-secondary" style="font-size: 18px;"></i>
+                    </div>
+                    <div class="col-md-10">
+                        <h6 class="text-secondary" style="font-size: 16px;">Trang chủ</h6>
+                    </div>
+                </a>
+                <a href="@Url.Action("OrderHistory", "Account")" class="d-flex rounded border border-danger bg-red_custom text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-history font-weight-bold text-danger" style="font-size: 18px;"></i>
                     </div>
                     <div class="col-md-9">
-                        <h6 class="font-weight-bold text-light" style="font-size: 20px;">Trang chủ</h6>
+                        <h6 class="font-weight-bold text-danger p-md-0" style="font-size: 16px; ">Lịch sử đặt hàng</h6>
                     </div>
-                </div>
-                <div class="d-flex rounded border border-gray bg-danger" style="border-radius: 15px !important;">
-                    <div class="col-md-3 ml-md-3  p-md-3">
-                        <i class="fal fa-history text-light" style="font-size: 28px;"></i>
-                    </div>
-                    <div class="col-md-9">
-                        <h6 style="font-size: 20px;">Lịch sử đặt hàng</h6>
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div class="col-md-3 ml-md-3">
-                        <i class="fal fa-key" style="font-size: 28px;"></i>
+                </a>
+                <a href="@Url.Action("ChangePassword", "Account")" class="d-flex text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-key text-secondary" style="font-size: 18px;"></i>
                     </div>
                     <div class="col-md-9">
-                        <h6 style="font-size: 20px;">Đổi mật khẩu</h6>
+                        <h6 class="text-secondary" style="font-size: 16px;">Đổi mật khẩu</h6>
                     </div>
-                </div>
-                <div class="d-flex">
-                    <div class="col-md-3 ml-md-3">
-                        <i class="fal fa-user-circle" style="font-size: 28px;"></i>
-                    </div>
-                    <div class="col-md-9">
-                        <h6 style="font-size: 20px;">Quản lý thông tin</h6>
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div class="col-md-3 ml-md-3">
-                        <i class="fal fa-sign-out-alt" style="font-size: 28px;"></i>
+                </a>
+                <a href="@Url.Action("AccountConfig", "Account")" class="d-flex text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-user-circle text-secondary" style="font-size: 18px;"></i>
                     </div>
                     <div class="col-md-9">
-                        <h6 style="font-size: 20px;">Đăng xuất</h6>
+                        <h6 class="text-secondary" style="font-size: 16px;">Quản lý thông tin</h6>
                     </div>
-                </div>
+                </a>
+                <a href="@Url.Action("Signout", "Account")" class="d-flex text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-sign-out-alt text-secondary" style="font-size: 18px;"></i>
+                    </div>
+                    <div class="col-md-9">
+                        <h6 class="text-secondary" style="font-size: 16px;">Đăng xuất</h6>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col-md-9">
-            a
+            <div class="row">
+                <div class="col-md-3 p-md-0"></div>
+                <div class="col-md-7 p-md-0"></div>
+                <div class="col-md-2 p-md-0">
+                    <div class="font-weight-bold text-uppercase text-right mr-md-4 text-secondary" style="font-size: 12px;">Giá</div>
+                </div>
+            </div>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <div class="row rounded border border-secondary p-md-2 mb-md-1">
+                        <div class="col-md-3">
+                            <img class="img-thumbnail mx-auto d-block rounded float-left w-75" src="~/Content/Images/products/dienthoai/samsung/samsunggalaxys22ultra5g128gb/samsunggalaxys22ultra5g128gb.jpg" alt="Alternate Text" />
+                        </div>
+                        <div class="col-md-5 p-md-1">
+                            <h5 class="font-weight-bold">Mã đơn hàng: @item.ID</h5>
+                            <div class="d-md-flex">
+                                <h5 class="text-center d-md-flex align-items-center mr-md-2">Ngày đặt: @item.OrderDate</h5>
+                            </div>
+                            <div class="d-md-flex">
+                                <h5>Trạng thái đơn:&nbsp;</h5>
+                                <h5 class="font-weight-bold text-danger">@item.OrderStatus</h5>
+                            </div>
+                            <div class="d-md-flex">
+                                <h5>Hình thức thanh toán:&nbsp;</h5>
+                                <h5 class="font-weight-bold text-danger">@(Convert.ToBoolean(item.IsPaid) ? "Trực tuyến" : "Khi nhận hàng")</h5>
+                            </div>
+                            <div class="d-md-flex">
+                                <h5>Ghi chú:&nbsp;</h5>
+                                <h5 class="font-weight-bold">@(item.Note == null ? "Không" : item.Note)</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="font-weight-bold text-danger text-right" style="font-size: 22px;">@item.Total VNĐ</div>
+                        </div>
+                        @if (item.OrderStatus.Equals("Đang Xử Lý"))
+                        {
+                            <button type="button"
+                                    class="btn btn-info mr-md-2"
+                                    onclick="location.href = '@Url.Action("Details", "Account", new { Id = item.ID, CurrentURL = Request.Url.ToString() })'">
+                                Xem chi tiết
+                            </button>
+                            <button type="button"
+                                    class="btn btn-danger"
+                                    onclick="location.href = '@Url.Action("CancelOrder", "Account", new { Id = item.ID, CurrentURL = Request.Url.ToString() })'">
+                                Huỷ đơn
+                            </button>
+                        }
+                        else if (item.OrderStatus.Equals("Đang Giao"))
+                        {
+                            <button type="button"
+                                    class="btn btn-info mr-md-2"
+                                    onclick="location.href = '@Url.Action("Details", "Account", new { Id = item.ID, CurrentURL = Request.Url.ToString() })'">
+                                Xem chi tiết
+                            </button> }
+                        else
+                        {
+                            <button type="button"
+                                    class="btn btn-info mr-md-2"
+                                    onclick="location.href = '@Url.Action("Details", "Account", new { Id = item.ID, CurrentURL = Request.Url.ToString() })'">
+                                Xem chi tiết
+                            </button>
+                            <button type="button"
+                                    class="btn btn-success mr-md-2"
+                                    onclick="location.href = '@Url.Action("Rating", "Account", new { Id = item.ID, CurrentURL = Request.Url.ToString() })'">
+                                Đánh giá
+                            </button>
+                        }
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>

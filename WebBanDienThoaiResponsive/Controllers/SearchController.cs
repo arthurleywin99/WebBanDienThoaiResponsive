@@ -7,6 +7,7 @@ using PagedList;
 using PagedList.Mvc;
 using WebBanDienThoaiResponsive.ViewModels;
 using WebBanDienThoaiResponsive.Models;
+using System.Configuration;
 
 namespace WebBanDienThoaiResponsive.Controllers
 {
@@ -57,6 +58,7 @@ namespace WebBanDienThoaiResponsive.Controllers
                 }
                 int pageSize = 8;
                 int pageNum = (page ?? 1);
+                    
                 return View(result.ToPagedList(pageNum, pageSize));
             }
         }

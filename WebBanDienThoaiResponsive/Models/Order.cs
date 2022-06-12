@@ -17,6 +17,8 @@ namespace WebBanDienThoaiResponsive.Models
 
         public Guid ID { get; set; }
 
+        public Guid MemberID { get; set; }
+
         public DateTime OrderDate { get; set; }
 
         [StringLength(20)]

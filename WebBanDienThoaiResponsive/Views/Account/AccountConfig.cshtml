@@ -1,58 +1,125 @@
-﻿
+﻿@using WebBanDienThoaiResponsive.Models
+@using WebBanDienThoaiResponsive.ViewModels
+@model WebBanDienThoaiResponsive.ViewModels.ChangeProfileViewModel
 @{
     ViewBag.Title = "AccountConfig";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container">
-    <h4><b>THÔNG TIN TÀI KHOẢN</b></h4>
     <div class="row">
         <div class="col-md-3">
             <div class="rounded border border-gray" style="border-radius: 15px !important;">
-                <div class="d-flex">
-                    <div class="col-md-3 ml-md-3">
-                        <i class="fal fa-home" style="font-size: 28px;"></i>
+                <a href="@Url.Action("AccountDetail", "Account")" class="d-flex text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-home text-secondary" style="font-size: 18px;"></i>
+                    </div>
+                    <div class="col-md-10">
+                        <h6 class="text-secondary" style="font-size: 16px;">Trang chủ</h6>
+                    </div>
+                </a>
+                <a href="@Url.Action("OrderHistory", "Account")" class="d-flex text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-history text-secondary" style="font-size: 18px;"></i>
                     </div>
                     <div class="col-md-9">
-                        <h6 class="font-weight-bold text-light" style="font-size: 20px;">Trang chủ</h6>
+                        <h6 class="text-secondary" style="font-size: 16px; ">Lịch sử đặt hàng</h6>
                     </div>
-                </div>
-                <div class="d-flex">
-                    <div class="col-md-3 ml-md-3">
-                        <i class="fal fa-key" style="font-size: 28px;"></i>
-                    </div>
-                    <div class="col-md-9">
-                        <h6 style="font-size: 20px;">Lịch sử đặt hàng</h6>
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div class="col-md-3 ml-md-3">
-                        <i class="fal fa-user-circle" style="font-size: 28px;"></i>
+                </a>
+                <a href="@Url.Action("ChangePassword", "Account")" class="d-flex text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-key text-secondary" style="font-size: 18px;"></i>
                     </div>
                     <div class="col-md-9">
-                        <h6 style="font-size: 20px;">Đổi mật khẩu</h6>
+                        <h6 class="text-secondary" style="font-size: 16px;">Đổi mật khẩu</h6>
                     </div>
-                </div>
-                <div class="d-flex rounded border border-gray bg-danger" style="border-radius: 15px !important;">
-                    <div class="col-md-3 ml-md-3  p-md-3">
-                        <i class="fal fa-history text-light" style="font-size: 28px;"></i>
-                    </div>
-                    <div class="col-md-9">
-                        <h6 style="font-size: 20px;">Quản lý thông tin</h6>
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div class="col-md-3 ml-md-3">
-                        <i class="fal fa-sign-out-alt" style="font-size: 28px;"></i>
+                </a>
+                <a href="@Url.Action("AccountConfig", "Account")" class="d-flex rounded border border-danger bg-red_custom text-decoration-none" style="border-radius: 10px !important;">
+                    <div class="col-md-2">
+                        <i class="fal fa-user-circle font-weight-bold text-danger" style="font-size: 18px;"></i>
                     </div>
                     <div class="col-md-9">
-                        <h6 style="font-size: 20px;">Đăng xuất</h6>
+                        <h6 class="font-weight-bold text-danger p-md-0" style="font-size: 16px;">Quản lý thông tin</h6>
                     </div>
-                </div>
+                </a>
+                <a href="@Url.Action("Signout", "Account")" class="d-flex text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-sign-out-alt text-secondary" style="font-size: 18px;"></i>
+                    </div>
+                    <div class="col-md-9">
+                        <h6 class="text-secondary" style="font-size: 16px;">Đăng xuất</h6>
+                    </div>
+                </a>
             </div>
         </div>
-        <div class="col-md-9">
-            a
+        <div class="col-md-9 d-flex rounded border border-danger bg-red_custom row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                @using (Html.BeginForm("AccountConfig", "Account"))
+                {
+                    @Html.AntiForgeryToken()
+                    <h6>Họ và tên</h6>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fal fa-phone"></i>
+                            </span>
+                        </div>
+                        @Html.TextBoxFor(p => p.FullName, new { @class = "form-control", type = "text", placeholder = "Nhập họ và tên" })
+                    </div>
+                    <div class="mb-md-3">
+                        @Html.ValidationMessageFor(p => p.FullName, "", new { @class = "text-center text-danger mb-3" })
+                    </div>
+
+                    <h6>Địa chỉ</h6>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fal fa-map-marker-alt"></i>
+                            </span>
+                        </div>
+                        @Html.TextBoxFor(p => p.Address, new { @class = "form-control", type = "text", placeholder = "Nhập địa chỉ" })
+                    </div>
+
+                    <h6>Ngày tháng năm sinh</h6>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fal fa-calendar-alt"></i>
+                            </span>
+                        </div>
+                        @Html.TextBoxFor(p => p.BirthDate, new { @class = "form-control", type = "date" })
+                    </div>
+                    <div class="mb-md-3">
+                        @Html.ValidationMessageFor(p => p.BirthDate, "", new { @class = "text-center text-danger mb-3" })
+                    </div>
+
+                    <h6>Xác thực</h6>
+                    <div class="input-group mb-md-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Câu hỏi bảo mật</label>
+                        </div>
+                        @Html.DropDownListFor(p => p.IDQuestion, new SelectList(ViewBag.AuthenticationQAList as List<AuthenticationQAndA>, "ID", "Question"), new { @class = "custom-select", id = "inputGroupSelect01" })
+                    </div>
+
+                    <h6>Câu trả lời</h6>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fal fa-question-circle"></i>
+                            </span>
+                        </div>
+                        @Html.TextBoxFor(p => p.Answer, new { @class = "form-control", type = "text", placeholder = "Câu trả lời" })
+                    </div>
+                    <div class="mb-md-3">
+                        @Html.ValidationMessageFor(p => p.Answer, "", new { @class = "text-center text-danger mb-md-3" })
+                    </div>
+                    <p class="text-danger text-center">@ViewData["ChangeProfileError"]</p>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block mb-md-1">Đổi thông tin</button>
+
+                }
+            </div>
+            <div class="col-md-3"></div>
         </div>
     </div>
 </div>

@@ -1,58 +1,113 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "AccountDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container">
-    <h4><b>THÔNG TIN TÀI KHOẢN</b></h4>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 pl-md-3 pt-md-3">
             <div class="rounded border border-gray" style="border-radius: 15px !important;">
-                <div class="d-flex rounded border border-gray bg-danger" style="border-radius: 15px !important;">
-                    <div class="col-md-3 ml-md-3 p-md-3">
-                        <i class="fal fa-home text-light" style="font-size: 28px;"></i>
+                <a href="@Url.Action("AccountDetail", "Account")" class="d-flex rounded border border-danger bg-red_custom text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-home font-weight-bold text-danger" style="font-size: 18px;"></i>
+                    </div>
+                    <div class="col-md-10">
+                        <h6 class="font-weight-bold text-danger p-md-0" style="font-size: 16px;">Trang chủ</h6>
+                    </div>
+                </a>
+                <a href="@Url.Action("OrderHistory", "Account")" class="d-flex text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-history text-secondary" style="font-size: 18px;"></i>
                     </div>
                     <div class="col-md-9">
-                        <h6 class="font-weight-bold text-light" style="font-size: 20px;">Trang chủ</h6>
+                        <h6 class="text-secondary" style="font-size: 16px; ">Lịch sử đặt hàng</h6>
                     </div>
-                </div>
-                <div class="d-flex">
-                    <div class="col-md-3 ml-md-3">
-                        <i class="fal fa-history" style="font-size: 28px;"></i>
-                    </div>
-                    <div class="col-md-9">
-                        <h6 style="font-size: 20px;">Lịch sử đặt hàng</h6>
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div class="col-md-3 ml-md-3">
-                        <i class="fal fa-key" style="font-size: 28px;"></i>
+                </a>
+                <a href="@Url.Action("ChangePassword", "Account")" class="d-flex text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-key text-secondary" style="font-size: 18px;"></i>
                     </div>
                     <div class="col-md-9">
-                        <h6 style="font-size: 20px;">Đổi mật khẩu</h6>
+                        <h6 class="text-secondary" style="font-size: 16px;">Đổi mật khẩu</h6>
                     </div>
-                </div>
-                <div class="d-flex">
-                    <div class="col-md-3 ml-md-3">
-                        <i class="fal fa-user-circle" style="font-size: 28px;"></i>
-                    </div>
-                    <div class="col-md-9">
-                        <h6 style="font-size: 20px;">Quản lý thông tin</h6>
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div class="col-md-3 ml-md-3">
-                        <i class="fal fa-sign-out-alt" style="font-size: 28px;"></i>
+                </a>
+                <a href="@Url.Action("AccountConfig", "Account")" class="d-flex text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-user-circle text-secondary" style="font-size: 18px;"></i>
                     </div>
                     <div class="col-md-9">
-                        <h6 style="font-size: 20px;">Đăng xuất</h6>
+                        <h6 class="text-secondary" style="font-size: 16px;">Quản lý thông tin</h6>
                     </div>
-                </div>
+                </a>
+                <a href="@Url.Action("Signout", "Account")" class="d-flex text-decoration-none">
+                    <div class="col-md-2">
+                        <i class="fal fa-sign-out-alt text-secondary" style="font-size: 18px;"></i>
+                    </div>
+                    <div class="col-md-9">
+                        <h6 class="text-secondary" style="font-size: 16px;">Đăng xuất</h6>
+                    </div>
+                </a>
             </div>
-        </div>
-        <div class="col-md-9">
-            a
+        </div> 
+        <div class="col-md-9 d-flex rounded border border-danger bg-red_custom row" style="border-radius: 10px !important;">
+            @using WebBanDienThoaiResponsive.Models
+            @using System.Globalization
+            @{
+                MemberAccount account = Session["Account"] as MemberAccount;
+            }
+            <div class="text-center" style="width: 100%;">
+                <h5>Xin chào</h5>
+                <p class="text-uppercase text-danger" style="font-size: 26px;">@account.FullName</p>
+            </div>
+            <div class="row text-center" style="width: 100%;">
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <h6>Sinh nhật</h6>
+                    <div>
+                        <i class="fal fa-birthday-cake text-danger" style="font-size: 58px;"></i>
+                    </div>
+                    <div>
+                        <p class="font-weight-bold" style="font-size: 20px;">@(account.BirthDate.Value.Day + "/" + account.BirthDate.Value.Month + "/" + account.BirthDate.Value.Year)</p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h6>Số điện thoại</h6>
+                    <div>
+                        <i class="fal fa-mobile text-danger" style="font-size: 58px;"></i>
+                    </div>
+                    <div>
+                        <p class="font-weight-bold" style="font-size: 20px;">@account.PhoneNumber</p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h6>Hạng thành viên</h6>
+                    <div>
+                        <i class="fal fa-medal text-danger" style="font-size: 58px;"></i>
+                    </div>
+                    <div>
+                        <p class="font-weight-bold text-uppercase" style="font-size: 20px;">@((ViewBag.AccountType as AccountType).UserTypeName)</p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h6>Ngày tham gia</h6>
+                    <div>
+                        <i class="fal fa-calendar-alt text-danger" style="font-size: 58px;"></i>
+                    </div>
+                    <div>
+                        <p class="font-weight-bold text-uppercase" style="font-size: 20px;">@(account.JoinDate.Value.Day + "/" + account.JoinDate.Value.Month + "/" + account.JoinDate.Value.Year)</p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h6>Tích luỹ</h6>
+                    <div>
+                        <i class="fal fa-wallet text-danger" style="font-size: 58px;"></i>
+                    </div>
+                    <div>
+                        <p class="font-weight-bold" style="font-size: 20px;">120.000.000đ</p>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
         </div>
     </div>
 </div>

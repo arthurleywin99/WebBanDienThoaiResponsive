@@ -1,0 +1,31 @@
+﻿@model IEnumerable<WebBanDienThoaiResponsive.ViewModels.OrderDetailsViewModel>
+@{
+    ViewBag.Title = "Rating";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h4><b>Đánh giá sản phẩm</b></h4>
+    @foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="row rounded border border-danger bg-red_custom p-md-2">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2">
+                        <img src="~/Content/Images/@item.ImageURL" width="50" alt="@item.ProductName" />
+                    </div>
+                    <div class="col-md-9">
+                        <h4 class="font-weight-bold">@item.ProductName</h4>
+                    </div>
+                    @Html.BeginForm("", "")
+                    {
+                        
+                    }
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    }
+</div>

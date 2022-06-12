@@ -25,15 +25,15 @@ namespace WebBanDienThoaiResponsive.ViewModels
 
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Mật khẩu không được để trống")]
-        [MinLength(8, ErrorMessage = ("Mật khẩu phải từ 8 - 24 ký tự số"))]
-        [MaxLength(24, ErrorMessage = ("Mật khẩu phải từ từ 8 - 24 ký tự số"))]
+        [MinLength(8, ErrorMessage = ("Mật khẩu phải từ 8 - 24 ký tự"))]
+        [MaxLength(24, ErrorMessage = ("Mật khẩu phải từ 8 - 24 ký tự"))]
         [PasswordExpression(ErrorMessage = ("Mật khẩu không đúng định dạng, chứa ít nhất 1 ký tự in hoa, in thường, ký tự số và ký tự đặc biệt"))]
         public string Password { get; set; }
 
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Mật khẩu không được để trống")]
-        [MinLength(8, ErrorMessage = ("Mật khẩu phải từ 8 - 24 ký tự số"))]
-        [MaxLength(24, ErrorMessage = ("Mật khẩu phải từ 8 - 24 ký tự số"))]
+        [MinLength(8, ErrorMessage = ("Mật khẩu phải từ 8 - 24 ký tự"))]
+        [MaxLength(24, ErrorMessage = ("Mật khẩu phải từ 8 - 24 ký tự"))]
         [PasswordExpression(ErrorMessage = ("Nhập lại mật khẩu không đúng định dạng, chứa ít nhất 1 ký tự in hoa, in thường, ký tự số và ký tự đặc biệt"))]
         public string RePassword { get; set; }
 

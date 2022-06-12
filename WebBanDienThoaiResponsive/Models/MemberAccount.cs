@@ -42,6 +42,10 @@ namespace WebBanDienThoaiResponsive.Models
         [StringLength(100)]
         public string ResetPasswordCode { get; set; }
 
+        public DateTime? JoinDate { get; set; }
+
+        public DateTime? BirthDate { get; set; }
+
         public bool? Status { get; set; }
 
         public virtual AccountType AccountType { get; set; }

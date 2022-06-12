@@ -124,3 +124,7 @@ footer {
 .border-gray {
     border-color: #cccccc !important;
 }
+
+.bg-red_custom {
+    background-color: #fee !important;
+}
