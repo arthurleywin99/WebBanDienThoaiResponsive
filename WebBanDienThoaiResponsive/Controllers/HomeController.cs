@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebBanDienThoaiResponsive.Models;
+using WebBanDienThoaiResponsive.ViewModels;
 
 namespace WebBanDienThoaiResponsive.Controllers
 {
@@ -54,8 +55,46 @@ namespace WebBanDienThoaiResponsive.Controllers
                                                join B in context.ProductTypes on A.ProductTypeID equals B.ID
                                                where B.ProductTypeName.Equals("Điện thoại")
                                                orderby A.OrderedCount
-                                               select A).OrderBy(p => p.OrderedCount).Take(8).ToList();
-                return PartialView(cellphoneList);
+                                               select A).OrderBy(p => p.OrderedCount).Take(12).ToList();
+                List<ProductViewModel> productViewModelList = new List<ProductViewModel>();
+                foreach (var item in cellphoneList)
+                {
+                    ProductViewModel productView = new ProductViewModel
+                    {
+                        ID = item.ID,
+                        SupplierID = item.SupplierID,
+                        ProductTypeID = item.ProductTypeID,
+                        BrandID = item.BrandID,
+                        ProductName = item.ProductName,
+                        Price = item.Price,
+                        Discount = item.Discount,
+                        UpdateDate = item.UpdateDate,
+                        Config = item.Config,
+                        Describe = item.Describe,
+                        ImageURL = item.ImageURL,
+                        QuantityInStock = item.QuantityInStock,
+                        RatingCount = item.RatingCount,
+                        CommentCount = item.CommentCount,
+                        OrderedCount = item.OrderedCount,
+                        Status = item.Status
+                    };
+                    double averageStar = Convert.ToDouble(context.OrderDetails.Where(p => p.ProductID == productView.ID).ToList().Average(p => p.RatingStar));
+                    if (averageStar - Math.Truncate(averageStar) > 0 && averageStar - Math.Truncate(averageStar) < 0.25)
+                    {
+                        averageStar = Math.Truncate(averageStar);
+                    }
+                    else if (averageStar - Math.Truncate(averageStar) >= 0.25 && averageStar - Math.Truncate(averageStar) < 0.75)
+                    {
+                        averageStar = Math.Truncate(averageStar) + 0.5;
+                    }
+                    else if (averageStar - Math.Truncate(averageStar) >= 0.75)
+                    {
+                        averageStar = Math.Truncate(averageStar) + 1;
+                    }
+                    productView.AverageRatingStar = averageStar;
+                    productViewModelList.Add(productView);
+                }
+                return PartialView(productViewModelList);
             }
         }
 
@@ -68,8 +107,46 @@ namespace WebBanDienThoaiResponsive.Controllers
                                             join B in context.ProductTypes on A.ProductTypeID equals B.ID
                                             where B.ProductTypeName.Equals("Laptop")
                                             orderby A.OrderedCount
-                                            select A).OrderBy(p => p.OrderedCount).Take(8).ToList();
-                return PartialView(laptopList);
+                                            select A).OrderBy(p => p.OrderedCount).Take(12).ToList();
+                List<ProductViewModel> productViewModelList = new List<ProductViewModel>();
+                foreach (var item in laptopList)
+                {
+                    ProductViewModel productView = new ProductViewModel
+                    {
+                        ID = item.ID,
+                        SupplierID = item.SupplierID,
+                        ProductTypeID = item.ProductTypeID,
+                        BrandID = item.BrandID,
+                        ProductName = item.ProductName,
+                        Price = item.Price,
+                        Discount = item.Discount,
+                        UpdateDate = item.UpdateDate,
+                        Config = item.Config,
+                        Describe = item.Describe,
+                        ImageURL = item.ImageURL,
+                        QuantityInStock = item.QuantityInStock,
+                        RatingCount = item.RatingCount,
+                        CommentCount = item.CommentCount,
+                        OrderedCount = item.OrderedCount,
+                        Status = item.Status
+                    };
+                    double averageStar = Convert.ToDouble(context.OrderDetails.Where(p => p.ProductID == productView.ID).ToList().Average(p => p.RatingStar));
+                    if (averageStar - Math.Truncate(averageStar) > 0 && averageStar - Math.Truncate(averageStar) < 0.25)
+                    {
+                        averageStar = Math.Truncate(averageStar);
+                    }
+                    else if (averageStar - Math.Truncate(averageStar) >= 0.25 && averageStar - Math.Truncate(averageStar) < 0.75)
+                    {
+                        averageStar = Math.Truncate(averageStar) + 0.5;
+                    }
+                    else if (averageStar - Math.Truncate(averageStar) >= 0.75)
+                    {
+                        averageStar = Math.Truncate(averageStar) + 1;
+                    }
+                    productView.AverageRatingStar = averageStar;
+                    productViewModelList.Add(productView);
+                }
+                return PartialView(productViewModelList);
             }
         }
 

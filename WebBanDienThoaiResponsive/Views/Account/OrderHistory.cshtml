@@ -85,7 +85,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="font-weight-bold text-danger text-right" style="font-size: 22px;">@item.Total VNĐ</div>
+                            <div class="font-weight-bold text-danger text-right" style="font-size: 22px;">@(Convert.ToInt32(item.Total).ToString("#,##")) VNĐ</div>
                         </div>
                         @if (item.OrderStatus.Equals("Đang Xử Lý"))
                         {

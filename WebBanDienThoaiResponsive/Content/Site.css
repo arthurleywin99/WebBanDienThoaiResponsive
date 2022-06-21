@@ -16,7 +16,7 @@
 }
 
 * {
-    font-family: 'Times New Roman';
+    font-family: Helvetica, Arial, sans-serif;
     color: #000;
 }
 
@@ -88,7 +88,7 @@ body {
     padding: 0;
     height: 100vh;
     font-size: 1.6rem;
-    font-family: 'Times New Roman', serif, Arial, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -97,7 +97,7 @@ body {
     display: grid;
     grid-template-areas: 'header' 'main' 'footer';
     grid-template-columns: 1fr;
-    grid-template-rows: 5rem 1fr 5rem;
+    grid-template-rows: 5rem 1fr 10rem;
     height: 100%;
 }
 

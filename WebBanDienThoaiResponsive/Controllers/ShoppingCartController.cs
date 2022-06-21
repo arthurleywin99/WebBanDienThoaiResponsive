@@ -83,5 +83,34 @@ namespace WebBanDienThoaiResponsive.Controllers
                 return context.Products.Any(p => p.QuantityInStock >= itemCart.Quantity && p.ID.Equals(ProductID));
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateShoppingCart(Guid Id, FormCollection form, string CurrentURL)
+        {
+            List<ShoppingCartViewModel> cartList = Session["Cart"] as List<ShoppingCartViewModel>;
+            int quantity = Convert.ToInt32(form["quantity"].ToString());
+            foreach (var item in cartList)
+            {
+                if (item.ID == Id)
+                {
+                    item.Quantity = quantity;
+                    break;
+                }
+            }
+            Session["Cart"] = cartList;
+            return Redirect(CurrentURL);
+        }
+
+        [HttpGet]
+        public ActionResult AddAndGoToShoppingCart(Guid ProductID, string ProductName, decimal Price, string ImageUrl)
+        {
+            using (var context = new Context())
+            {
+                List<ShoppingCartViewModel> carts = GetAlls();
+                AddItems(carts, ProductID, ProductName, Price, ImageUrl);
+            }
+            return RedirectToAction("Index", "ShoppingCart");
+        }
     }
 }

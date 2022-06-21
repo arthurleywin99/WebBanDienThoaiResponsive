@@ -234,7 +234,7 @@ namespace WebBanDienThoaiResponsive.Controllers
         }
 
         [HttpGet]
-        public ActionResult Rating(Guid Id, string CurrentURL)
+        public ActionResult Rating(Guid Id)
         {
             using (var context = new Context())
             {
@@ -243,13 +243,47 @@ namespace WebBanDienThoaiResponsive.Controllers
                 foreach (var item in orderDetailList)
                 {
                     OrderDetailsViewModel detail = new OrderDetailsViewModel();
+                    detail.OrderId = item.OrderID;
+                    detail.ProductId = item.ProductID;
                     detail.ImageURL = context.Products.FirstOrDefault(p => p.ID == item.ProductID).ImageURL;
                     detail.ProductName = context.Products.FirstOrDefault(p => p.ID == item.ProductID).ProductName;
                     detail.Quantity = item.Quantity;
                     detail.PriceNow = Convert.ToInt64(item.PriceNow);
+                    detail.RatingStar = Convert.ToInt32(item.RatingStar);
+                    detail.Content = item.Content;
                     orderDetails.Add(detail);
                 }
                 return View(orderDetails);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SendReviews(Guid orderId, Guid productId, FormCollection form, string CurrentURL)
+        {
+            using (var context = new Context())
+            {
+                OrderDetail detail = context.OrderDetails.FirstOrDefault(p => p.OrderID == orderId && p.ProductID == productId);
+                try
+                {
+                    detail.RatingStar = Convert.ToInt32(form["rating"].ToString());
+                }
+                catch (Exception)
+                {
+                    detail.RatingStar = 0;
+                }
+                try
+                {
+                    detail.Content = form["content"].ToString();
+                }
+                catch (Exception)
+                {
+                    detail.Content = "";
+                }
+                Product product = context.Products.FirstOrDefault(p => p.ID == detail.ProductID);
+                product.RatingCount++;
+                context.SaveChanges();
+                return Redirect(CurrentURL);
             }
         }
 

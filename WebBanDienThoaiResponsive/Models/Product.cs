@@ -48,6 +48,8 @@ namespace WebBanDienThoaiResponsive.Models
 
         public bool? Status { get; set; }
 
+        public decimal? Discount { get; set; }
+
         public virtual Brand Brand { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

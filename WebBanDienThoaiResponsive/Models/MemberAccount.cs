@@ -13,6 +13,7 @@ namespace WebBanDienThoaiResponsive.Models
         public MemberAccount()
         {
             Comments = new HashSet<Comment>();
+            Orders = new HashSet<Order>();
         }
 
         public Guid ID { get; set; }
@@ -39,6 +40,8 @@ namespace WebBanDienThoaiResponsive.Models
 
         public string Answer { get; set; }
 
+        public bool? Status { get; set; }
+
         [StringLength(100)]
         public string ResetPasswordCode { get; set; }
 
@@ -46,13 +49,14 @@ namespace WebBanDienThoaiResponsive.Models
 
         public DateTime? BirthDate { get; set; }
 
-        public bool? Status { get; set; }
-
         public virtual AccountType AccountType { get; set; }
 
         public virtual AuthenticationQAndA AuthenticationQAndA { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

@@ -1,6 +1,6 @@
-﻿@using WebBanDienThoaiResponsive.Models
+﻿@using WebBanDienThoaiResponsive.ViewModels
 @using PagedList.Mvc
-@model PagedList.PagedList<Product>
+@model PagedList.PagedList<ProductViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -10,27 +10,69 @@
 <div class="container">
     <!--NAVBAR LOẠI SẢN PHẨM-->
     @Html.Action("ProductTypes", "Home")
-    <h4><b>TẤT CẢ SẢN PHẨM</b></h4>
+    <h5 class="mt-md-1"><b>@ViewBag.ResCount kết quả</b></h5>
+
+    <div class="dropdown" align="right">
+        <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+            Sắp xếp theo:
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="@Url.Action("Index", "Product", new { @page = 1, @option = 1 })">Giá tăng dần</a>
+            <a class="dropdown-item" href="@Url.Action("Index", "Product", new { @page = 1, @option = 2 })">Giá giảm dần</a>
+            <a class="dropdown-item" href="@Url.Action("Index", "Product", new { @page = 1, @option = 3 })">Theo thứ tự A - Z</a>
+            <a class="dropdown-item" href="@Url.Action("Index", "Product", new { @page = 1, @option = 4 })">Theo thứ tự Z - A</a>
+        </div>
+    </div>
+
     <div class="row">
         @foreach (var item in Model)
         {
-            <div class="col-md-3">
+            <div class="col-md-2 p-md-1">
                 <div class="card">
                     <a class="text-decoration-none" href="@Url.Action("ProductDetails", "Product", new { Id = item.ID })">
                         <img class="card-img-top" src="~/Content/Images/@item.ImageURL" alt="@item.ProductName">
                     </a>
                     <div class="card-body">
                         <a class="text-decoration-none" href="@Url.Action("ProductDetails", "Product", new { Id = item.ID })">
-                            <h5 class="card-title">@item.ProductName</h5>
+                            <h6 class="card-title">@item.ProductName</h6>
                         </a>
-                        <h6 class="card-title font-weight-bold text-danger">@item.Price&nbsp;đ</h6>
-                        <h6 class="card-title font-weight-bold"><s>@item.Price&nbsp;đ</s></h6>
+                        <h6 class="card-title font-weight-bold text-danger">@(Convert.ToInt32(item.Price).ToString("#,##")) đ</h6>
+                        <h6 class="card-title font-weight-bold"><s>@(Convert.ToInt32(item.Discount).ToString("#,##")) đ</s></h6>
                         <div class="rating">
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star-half-alt text-warning"></i>
+                            @{
+                                double rStar = item.AverageRatingStar;
+                                if (rStar == 0)
+                                {
+                                    <i class="fal fa-star text-warning"></i>
+                                    <i class="fal fa-star text-warning"></i>
+                                    <i class="fal fa-star text-warning"></i>
+                                    <i class="fal fa-star text-warning"></i>
+                                    <i class="fal fa-star text-warning"></i>
+                                }
+                                else
+                                {
+                                    int i = 0;
+                                    while (i < 5)
+                                    {
+                                        if (rStar >= 1)
+                                        {
+                                            <i class="fas fa-star text-warning"></i>
+                                            rStar--;
+                                        }
+                                        else if (rStar >= 0.5)
+                                        {
+                                            <i class="fas fa-star-half-alt text-warning"></i>
+                                            rStar -= 0.5;
+                                        }
+                                        else
+                                        {
+                                            <i class="fal fa-star text-warning"></i>
+                                        }
+                                        ++i;
+                                    }
+                                }
+                            }
+                            <p class="text-secondary" style="font-size: 11px;">@(item.RatingCount + " Đánh giá")</p>
                         </div>
                     </div>
                 </div>
@@ -39,10 +81,10 @@
     </div>
     <nav aria-label="...">
         <ul class="pagination pagination-lg justify-content-center">
-            <li class="page-item"><a class="page-link" href="@Url.Action("SearchData", "Search", new { page = 1 })">1</a></li>
+            <li class="page-item"><a class="page-link" href="@Url.Action("Index", "Product", new { page = 1, option = ViewBag.Option })">1</a></li>
             @for (int i = 2; i <= Model.PageCount; ++i)
             {
-                <li class="page-item"><a class="page-link" href="@Url.Action("SearchData", "Search", new { page = i })">@i</a></li>
+                <li class="page-item"><a class="page-link" href="@Url.Action("Index", "Product", new { page = i, option = ViewBag.Option })">@i</a></li>
             }
         </ul>
     </nav>

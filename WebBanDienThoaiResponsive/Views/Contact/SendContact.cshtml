@@ -1,8 +1,27 @@
 ﻿@using WebBanDienThoaiResponsive
+@using WebBanDienThoaiResponsive.Models 
 @model WebBanDienThoaiResponsive.ViewModels.ContactViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@functions {
+    public static string GetData(string keyword)
+    {
+        using (var context = new Context())
+        {
+            bool isExist = context.WebInfoes.Any(p => p.Keyword == keyword);
+            if (isExist)
+            {
+                return context.WebInfoes.Single(p => p.Keyword == keyword).Value;
+            }
+            else
+            {
+                return "";
+            }
+        }
+    }
 }
 
 <div class="container">
@@ -68,22 +87,22 @@
             <hr class="mr-md-4" />
             <div class="d-md-flex">
                 <h5>Hợp tác, liên hệ:&nbsp;</h5>
-                <h5 class="text-primary">phongnhansu@@applestore.com</h5>
+                <a class="text-decoration-none" href="@string.Concat("mailto:", GetData("HREmail"))"><h5 class="text-primary">phongnhansu@@applestore.com</h5></a>
             </div>
             <div class="d-md-flex">
                 <h5>Tổng đài tư vấn, hỗ trợ khách hàng (7h30 đến 21h):&nbsp;</h5>
-                <h5 class="text-warning font-weight-bold">0354.321.915</h5>
+                <a class="text-decoration-none" href="@string.Concat("tel:", GetData("PhoneContact"))"><h5 class="text-warning font-weight-bold">0354.321.915</h5></a>
             </div>
             <div class="d-md-flex">
                 <h5>Tổng đài khiếu nại:&nbsp;</h5>
-                <h5 class="text-warning font-weight-bold">0354.321.915</h5>
+                <a class="text-decoration-none" href="@string.Concat("tel:", GetData("PhoneContact"))"><h5 class="text-warning font-weight-bold">0354.321.915</h5></a>
             </div>
             <div class="d-md-flex">
                 <h5>Ẹmail:&nbsp;</h5>
-                <h5 class="text-primary">cskh@@applestore.com</h5>
+                <a class="text-decoration-none" href="@string.Concat("mailto:", GetData("CCEmail"))"><h5 class="text-primary">cskh@@applestore.com</h5></a>
             </div>
             <div>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1346.040565319615!2d106.77425167236028!3d10.831476619202341!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527010fcb280b%3A0xbece03f175c4325c!2zMjcsIDEgxJDGsOG7nW5nIFPhu5EgMTQ3LCBQaMaw4bubYyBMb25nIEIsIFF14bqtbiA5LCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1654404618436!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="@GetData("GoogleMapLocation")" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </div>

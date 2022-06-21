@@ -1,0 +1,75 @@
+﻿@model WebBanDienThoaiResponsive.ViewModels.SigninViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.2.0/css/all.css">
+    <script type="text/javascript" src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/umd/popper.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <title>Đăng nhập</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 align-self-start">
+
+            </div>
+            <div class="col-md-6 align-self-center">
+                <img class="mx-auto d-block" src="~/Content/Images/head-logo.png" style="width: 50%;" alt="Alternate Text" />
+                <div class="rounded border border-secondary p-md-5">
+                    <h2 class="font-weight-bold mb-md-4">Chào mừng đến với trang quản trị</h2>
+                    <h3 class="font-weight-bold mb-md-4">Đăng nhập để tiếp tục</h3>
+                    @using (Html.BeginForm("Signin", "AdminAccount"))
+                    {
+                        @Html.AntiForgeryToken()
+                        <h6>Tên đăng nhập</h6>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fal fa-user"></i>
+                                </span>
+                            </div>
+                            @Html.TextBoxFor(p => p.Username, new { @class = "form-control", type = "text", placeholder = "Nhập email hoặc số điện thoại" })
+                        </div>
+                        <div class="mb-md-3">
+                            @Html.ValidationMessageFor(p => p.Username, "", new { @class = "text-center text-danger" })
+                        </div>
+
+                        <h6>Mật khẩu</h6>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fal fa-lock"></i>
+                                </span>
+                            </div>
+                            @Html.TextBoxFor(p => p.Password, new { @class = "form-control", type = "password", placeholder = "Nhập mật khẩu" })
+                        </div>
+                        <div class="mb-md-5">
+                            @Html.ValidationMessageFor(p => p.Username, "", new { @class = "text-center text-danger" })
+                        </div>
+
+                        <p class="text-danger text-center">@ViewData["SigninError"]</p>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block text-uppercase mb-md-3">Đăng nhập</button>
+                    }
+                    <p class="text-right text-secondary font-weight-bold">Quên mật khẩu?</p>
+                </div>
+            </div>
+            <div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

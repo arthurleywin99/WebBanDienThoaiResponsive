@@ -30,6 +30,7 @@ namespace WebBanDienThoaiResponsive.Models
         public virtual DbSet<ProductType> ProductTypes { get; set; }
         public virtual DbSet<QAndA> QAndAs { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<WebInfo> WebInfoes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -112,6 +113,11 @@ namespace WebBanDienThoaiResponsive.Models
                 .WithOptional(e => e.MemberAccount)
                 .HasForeignKey(e => e.MemberID);
 
+            modelBuilder.Entity<MemberAccount>()
+                .HasMany(e => e.Orders)
+                .WithOptional(e => e.MemberAccount)
+                .HasForeignKey(e => e.MemberID);
+
             modelBuilder.Entity<News>()
                 .Property(e => e.ImageURL)
                 .IsUnicode(false);
@@ -166,6 +172,10 @@ namespace WebBanDienThoaiResponsive.Models
             modelBuilder.Entity<Product>()
                 .Property(e => e.ImageURL)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.Discount)
+                .HasPrecision(18, 0);
 
             modelBuilder.Entity<Product>()
                 .HasMany(e => e.OrderDetails)

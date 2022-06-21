@@ -1,9 +1,29 @@
 ﻿@using WebBanDienThoaiResponsive.ViewModels
+@using WebBanDienThoaiResponsive.Models
 @model IEnumerable<WebBanDienThoaiResponsive.ViewModels.ShoppingCartViewModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@functions {
+    public static string GetData(string keyword)
+    {
+        using (var context = new Context())
+        {
+            bool isExist = context.WebInfoes.Any(p => p.Keyword == keyword);
+            if (isExist)
+            {
+                return context.WebInfoes.Single(p => p.Keyword == keyword).Value;
+            }
+            else
+            {
+                return "";
+            }
+        }
+    }
+}
+
 <div class="container">
     <h4><b>GIỎ HÀNG</b></h4>
     <div class="row">
@@ -17,30 +37,37 @@
             </div>
             @foreach (var item in Model)
             {
-                <div class="row rounded border border-secondary p-md-2 mb-md-1">
-                    <div class="col-md-3">
-                        <img class="img-thumbnail mx-auto d-block rounded float-left w-75" src="~/Content/Images/products/dienthoai/samsung/samsunggalaxys22ultra5g128gb/samsunggalaxys22ultra5g128gb.jpg" alt="Alternate Text" />
-                    </div>
-                    <div class="col-md-5 p-md-1">
-                        <h5 class="font-weight-bold">@item.ProductName</h5>
-                        <h6 class="text-success">Còn hàng</h6>
-                        <div class="d-md-flex">
-                            <div class="text-center d-md-flex align-items-center mr-md-2">Số lượng: </div>
-                            <input class="form-control"
-                                   type="number"
-                                   style="width: 20% !important;"
-                                   value="@item.Quantity" />
+                using (Html.BeginForm("UpdateShoppingCart", "ShoppingCart", new { @Id = item.ID, @CurrentURL = Request.Url.ToString() }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="row rounded border border-secondary p-md-2 mb-md-1">
+                        <div class="col-md-3">
+                            <img class="img-thumbnail mx-auto d-block rounded float-left w-75" src="~/Content/Images/@item.ImageUrl" alt="@item.ProductName" />
                         </div>
-                        <div class="d-md-flex">
-                            <h5>Giá tiền:&nbsp;</h5>
-                            <h5 class="font-weight-bold text-danger">@item.Price</h5>
+                        <div class="col-md-5 p-md-1">
+                            <h5 class="font-weight-bold">@item.ProductName</h5>
+                            <h6 class="text-success">Còn hàng</h6>
+                            <div class="d-md-flex">
+                                <div class="text-center d-md-flex align-items-center mr-md-2">Số lượng: </div>
+                                <input class="form-control"
+                                       type="number"
+                                       style="width: 20% !important;"
+                                       value="@item.Quantity"
+                                       min="1"
+                                       name="quantity"
+                                       onchange="this.form.submit();" />
+                            </div>
+                            <div class="d-md-flex mt-md-2">
+                                <div>Giá tiền:&nbsp;</div>
+                                <h5 class="font-weight-bold text-danger">@(Convert.ToInt32(item.Price).ToString("#,##")) đ</h5>
+                            </div>
+                            <button type="button" class="btn btn-danger mt-md-2">Xoá khỏi giỏ hàng</button>
                         </div>
-                        <button type="button" class="btn btn-danger">Xoá khỏi giỏ hàng</button>
+                        <div class="col-md-4">
+                            <div class="font-weight-bold text-danger text-right" style="font-size: 22px;">@(Convert.ToInt32(item.Price * item.Quantity).ToString("#,##")) đ</div>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="font-weight-bold text-danger text-right" style="font-size: 22px;">@(item.Price * item.Quantity) VNĐ</div>
-                    </div>
-                </div>
+                }
             }
         </div>
         <div class="col-md-3">
@@ -56,19 +83,19 @@
                 </div>
                 <div class="d-md-flex">
                     <h6>Phí ship:&nbsp;</h6>
-                    <h6 class="font-weight-bold text-success">30.000 VNĐ</h6>
+                    <h6 class="font-weight-bold text-success">@Convert.ToInt32(GetData("DeliveryFee")).ToString("#,##") đ</h6>
                 </div>
                 <div class="d-md-flex">
                     <h6>Giá:&nbsp;</h6>
-                    <h6 class="font-weight-bold text-success">@sum</h6>
+                    <h6 class="font-weight-bold text-success">@sum.ToString("#,##") đ</h6>
                 </div>
                 <hr />
                 <div class="d-md-flex">
                     <h6>Tổng tiền:&nbsp;</h6>
-                    <h6 class="font-weight-bold text-danger">@(sum + 30000) VNĐ</h6>
+                    <h6 class="font-weight-bold text-danger">@((sum + Convert.ToInt32(GetData("DeliveryFee"))).ToString("#,##")) đ</h6>
                 </div>
                 <button type="button"
-                        class="btn btn-danger btn-lg btn-block p-md-2 text-uppercase font-weight-bold"
+                        class="btn btn-danger btn-lg btn-block p-md-2 text-uppercase font-weight-bold mt-md-2"
                         onclick="location.href = '@Url.Action("OrderingAction", "Order")'">
                     Đặt hàng
                 </button>

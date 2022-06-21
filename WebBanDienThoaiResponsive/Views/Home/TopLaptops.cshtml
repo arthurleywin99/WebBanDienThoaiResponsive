@@ -1,26 +1,55 @@
-﻿@model IEnumerable<WebBanDienThoaiResponsive.Models.Product>
+﻿@model IEnumerable<WebBanDienThoaiResponsive.ViewModels.ProductViewModel>
 
-<h4><b>LAPTOP NỔI BẬT NHẤT</b></h4>
+<h5 class="mt-md-1"><b>LAPTOP NỔI BẬT NHẤT</b></h5>
 <div class="row">
     @foreach (var item in Model)
     {
-        <div class="col-md-3">
-            <div class="card">
-                <a class="text-decoration-none" href="@Url.Action("ProductDetails", "Product", new { Id = item.ID })">
+        <div class="col-md-2 p-md-1">
+            <div class="card" style="border-radius: 10px !important;">
+                <a class="text-decoration-none mt-md-3" href="@Url.Action("ProductDetails", "Product", new { Id = item.ID })">
                     <img class="card-img-top" src="~/Content/Images/@item.ImageURL" alt="@item.ProductName">
                 </a>
                 <div class="card-body">
                     <a class="text-decoration-none" href="@Url.Action("ProductDetails", "Product", new { Id = item.ID })">
-                        <h5 class="card-title">@item.ProductName</h5>
+                        <h6 class="card-title">@item.ProductName</h6>
                     </a>
-                    <h6 class="card-title font-weight-bold text-danger">@item.Price&nbsp;đ</h6>
-                    <h6 class="card-title font-weight-bold"><s>@item.Price&nbsp;đ</s></h6>
+                    <h6 class="card-title font-weight-bold text-danger">@(Convert.ToInt32(item.Price).ToString("#,##")) đ</h6>
+                    <h6 class="card-title font-weight-bold"><s>@(Convert.ToInt32(item.Discount).ToString("#,##")) đ</s></h6>
                     <div class="rating">
-                        <i class="fas fa-star text-warning"></i>
-                        <i class="fas fa-star text-warning"></i>
-                        <i class="fas fa-star text-warning"></i>
-                        <i class="fas fa-star text-warning"></i>
-                        <i class="fas fa-star-half-alt text-warning"></i>
+                        @{
+                            double rStar = item.AverageRatingStar;
+                            if (rStar == 0)
+                            {
+                                <i class="fal fa-star text-warning"></i>
+                                <i class="fal fa-star text-warning"></i>
+                                <i class="fal fa-star text-warning"></i>
+                                <i class="fal fa-star text-warning"></i>
+                                <i class="fal fa-star text-warning"></i>
+                            }
+                            else
+                            {
+                                int i = 0;
+                                while (i < 5)
+                                {
+                                    if (rStar >= 1)
+                                    {
+                                        <i class="fas fa-star text-warning"></i>
+                                        rStar--;
+                                    }
+                                    else if (rStar >= 0.5)
+                                    {
+                                        <i class="fas fa-star-half-alt text-warning"></i>
+                                        rStar -= 0.5;
+                                    }
+                                    else
+                                    {
+                                        <i class="fal fa-star text-warning"></i>
+                                    }
+                                    ++i;
+                                }
+                            }
+                        }
+                        <p class="text-secondary" style="font-size: 11px;">@(item.RatingCount + " Đánh giá")</p>
                     </div>
                 </div>
             </div>

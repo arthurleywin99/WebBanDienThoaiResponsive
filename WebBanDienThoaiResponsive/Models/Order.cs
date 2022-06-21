@@ -17,8 +17,6 @@ namespace WebBanDienThoaiResponsive.Models
 
         public Guid ID { get; set; }
 
-        public Guid MemberID { get; set; }
-
         public DateTime OrderDate { get; set; }
 
         [StringLength(20)]
@@ -51,6 +49,10 @@ namespace WebBanDienThoaiResponsive.Models
 
         [Required]
         public string OrderAddress { get; set; }
+
+        public Guid? MemberID { get; set; }
+
+        public virtual MemberAccount MemberAccount { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

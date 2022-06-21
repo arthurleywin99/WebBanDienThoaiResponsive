@@ -54,6 +54,8 @@
             @using System.Globalization
             @{
                 MemberAccount account = Session["Account"] as MemberAccount;
+                var context = new Context();
+                long accumulateMoney = Convert.ToInt64(context.Orders.Where(p => p.MemberID == account.ID).ToList().Sum(p => p.Total));
             }
             <div class="text-center" style="width: 100%;">
                 <h5>Xin chào</h5>
@@ -103,7 +105,7 @@
                         <i class="fal fa-wallet text-danger" style="font-size: 58px;"></i>
                     </div>
                     <div>
-                        <p class="font-weight-bold" style="font-size: 20px;">120.000.000đ</p>
+                        <p class="font-weight-bold" style="font-size: 20px;">@accumulateMoney.ToString("#,##") đ</p>
                     </div>
                 </div>
                 <div class="col-md-1"></div>
