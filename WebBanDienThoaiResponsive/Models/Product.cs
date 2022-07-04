@@ -12,7 +12,6 @@ namespace WebBanDienThoaiResponsive.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            Comments = new HashSet<Comment>();
             OrderDetails = new HashSet<OrderDetail>();
         }
 
@@ -30,6 +29,8 @@ namespace WebBanDienThoaiResponsive.Models
 
         public decimal? Price { get; set; }
 
+        public decimal? Discount { get; set; }
+
         public DateTime? UpdateDate { get; set; }
 
         public string Config { get; set; }
@@ -42,18 +43,11 @@ namespace WebBanDienThoaiResponsive.Models
 
         public int? RatingCount { get; set; }
 
-        public int? CommentCount { get; set; }
-
         public int? OrderedCount { get; set; }
 
         public bool? Status { get; set; }
 
-        public decimal? Discount { get; set; }
-
         public virtual Brand Brand { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comment> Comments { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

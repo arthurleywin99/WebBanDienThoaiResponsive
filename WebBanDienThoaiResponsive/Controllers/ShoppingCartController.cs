@@ -65,6 +65,16 @@ namespace WebBanDienThoaiResponsive.Controllers
             }
         }
 
+        private List<ShoppingCartViewModel> RemoveItems(List<ShoppingCartViewModel> carts, Guid ProductID)
+        {
+            if (carts.Any(p => p.ID == ProductID))
+            {
+                ShoppingCartViewModel viewModel = carts.First(p => p.ID == ProductID);
+                carts.Remove(viewModel);
+            }
+            return carts;
+        }
+
         [HttpGet]
         public ActionResult AddToCart(Guid ProductID, string CurrentURL, string ProductName, decimal Price, string ImageUrl)
         {
@@ -90,6 +100,7 @@ namespace WebBanDienThoaiResponsive.Controllers
         {
             List<ShoppingCartViewModel> cartList = Session["Cart"] as List<ShoppingCartViewModel>;
             int quantity = Convert.ToInt32(form["quantity"].ToString());
+            quantity = quantity > 0 ? quantity : 1;
             foreach (var item in cartList)
             {
                 if (item.ID == Id)
@@ -111,6 +122,20 @@ namespace WebBanDienThoaiResponsive.Controllers
                 AddItems(carts, ProductID, ProductName, Price, ImageUrl);
             }
             return RedirectToAction("Index", "ShoppingCart");
+        }
+
+        public ActionResult RemoveItem(Guid ProductID, string CurrentURL)
+        {
+            List<ShoppingCartViewModel> carts = GetAlls();
+            RemoveItems(carts, ProductID);
+            Session["Cart"] = carts;
+            return Redirect(CurrentURL);
+        }
+
+        public ActionResult RemoveAll(string CurrentURL)
+        {
+            Session["Cart"] = null;
+            return Redirect(CurrentURL);
         }
     }
 }

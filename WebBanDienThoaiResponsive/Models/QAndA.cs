@@ -28,9 +28,9 @@ namespace WebBanDienThoaiResponsive.Models
 
         public string Content { get; set; }
 
-        public bool? Status { get; set; }
-
         public Guid IDProblem { get; set; }
+
+        public bool? Status { get; set; }
 
         public virtual ProblemContact ProblemContact { get; set; }
     }

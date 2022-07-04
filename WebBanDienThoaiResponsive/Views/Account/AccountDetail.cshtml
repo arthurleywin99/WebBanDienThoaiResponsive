@@ -54,6 +54,7 @@
             @using System.Globalization
             @{
                 MemberAccount account = Session["Account"] as MemberAccount;
+                DateTime birthDate = Convert.ToDateTime(account.BirthDate);
                 var context = new Context();
                 long accumulateMoney = Convert.ToInt64(context.Orders.Where(p => p.MemberID == account.ID).ToList().Sum(p => p.Total));
             }
@@ -69,7 +70,7 @@
                         <i class="fal fa-birthday-cake text-danger" style="font-size: 58px;"></i>
                     </div>
                     <div>
-                        <p class="font-weight-bold" style="font-size: 20px;">@(account.BirthDate.Value.Day + "/" + account.BirthDate.Value.Month + "/" + account.BirthDate.Value.Year)</p>
+                        <p class="font-weight-bold" style="font-size: 20px;">@(birthDate.Day + "/" + birthDate.Month + "/" + birthDate.Year)</p>
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -96,7 +97,7 @@
                         <i class="fal fa-calendar-alt text-danger" style="font-size: 58px;"></i>
                     </div>
                     <div>
-                        <p class="font-weight-bold text-uppercase" style="font-size: 20px;">@(account.JoinDate.Value.Day + "/" + account.JoinDate.Value.Month + "/" + account.JoinDate.Value.Year)</p>
+                        <p class="font-weight-bold text-uppercase" style="font-size: 20px;">@(account.JoinDate.Day + "/" + account.JoinDate.Month + "/" + account.JoinDate.Year)</p>
                     </div>
                 </div>
                 <div class="col-md-2">

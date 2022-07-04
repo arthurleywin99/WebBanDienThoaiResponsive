@@ -128,3 +128,7 @@ footer {
 .bg-red_custom {
     background-color: #fee !important;
 }
+
+.img-circle {
+    border-radius: 50%;
+}

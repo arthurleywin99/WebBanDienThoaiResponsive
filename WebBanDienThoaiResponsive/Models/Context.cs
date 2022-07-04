@@ -20,7 +20,6 @@ namespace WebBanDienThoaiResponsive.Models
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<BrandAdvertisement> BrandAdvertisements { get; set; }
         public virtual DbSet<CarouselSlider> CarouselSliders { get; set; }
-        public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<MemberAccount> MemberAccounts { get; set; }
         public virtual DbSet<News> News { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
@@ -30,7 +29,6 @@ namespace WebBanDienThoaiResponsive.Models
         public virtual DbSet<ProductType> ProductTypes { get; set; }
         public virtual DbSet<QAndA> QAndAs { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<WebInfo> WebInfoes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -55,10 +53,6 @@ namespace WebBanDienThoaiResponsive.Models
 
             modelBuilder.Entity<AdminConfig>()
                 .Property(e => e.AdPhoneNumber)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Advertisement>()
-                .Property(e => e.BeginDate)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Advertisement>()
@@ -91,10 +85,6 @@ namespace WebBanDienThoaiResponsive.Models
                 .Property(e => e.UrlTo)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Comment>()
-                .Property(e => e.CommentDate)
-                .IsUnicode(false);
-
             modelBuilder.Entity<MemberAccount>()
                 .Property(e => e.Email)
                 .IsFixedLength()
@@ -107,11 +97,6 @@ namespace WebBanDienThoaiResponsive.Models
             modelBuilder.Entity<MemberAccount>()
                 .Property(e => e.PhoneNumber)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<MemberAccount>()
-                .HasMany(e => e.Comments)
-                .WithOptional(e => e.MemberAccount)
-                .HasForeignKey(e => e.MemberID);
 
             modelBuilder.Entity<MemberAccount>()
                 .HasMany(e => e.Orders)
@@ -170,12 +155,12 @@ namespace WebBanDienThoaiResponsive.Models
                 .HasPrecision(18, 0);
 
             modelBuilder.Entity<Product>()
-                .Property(e => e.ImageURL)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Product>()
                 .Property(e => e.Discount)
                 .HasPrecision(18, 0);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.ImageURL)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Product>()
                 .HasMany(e => e.OrderDetails)
@@ -194,5 +179,7 @@ namespace WebBanDienThoaiResponsive.Models
                 .Property(e => e.PhoneNumber)
                 .IsUnicode(false);
         }
+
+        public System.Data.Entity.DbSet<WebBanDienThoaiResponsive.ViewModels.ProductTypeViewModel> ProductTypeViewModels { get; set; }
     }
 }

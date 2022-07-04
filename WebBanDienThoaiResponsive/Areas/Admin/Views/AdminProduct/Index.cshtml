@@ -1,0 +1,93 @@
+﻿@model IEnumerable<WebBanDienThoaiResponsive.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@helper Truncate(string input, int length)
+{
+    if (input.Length < length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)<text>...</text>
+    }
+}
+
+<h2>Product</h2>
+
+<div class="container-fluid bg-gray-light">
+    <a href="#" class="btn btn-success text-uppercase mb-md-1">Create</a>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nhà cung cấp</th>
+                <th scope="col">Loại sản phẩm</th>
+                <th scope="col">Thương hiệu</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">Giá tiền</th>
+                <th scope="col">Ngày tạo</th>
+                <th scope="col">Cấu hình</th>
+                <th scope="col">Mô tả</th>
+                <th scope="col">Ảnh</th>
+                <th scope="col">Số lượng tồn</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@i</th>
+                        <td>@item.Supplier.SupplierName</td>
+                        <td>@Truncate(item.ProductType.ProductTypeName, 15)</td>
+                        <td>@Truncate(item.Brand.BrandName, 15)</td>
+                        <td>@Truncate(item.ProductName, 15)</td>
+                        <td>@(Convert.ToInt32(item.Price).ToString("#,##"))</td>
+                        <td>@(Convert.ToDateTime(item.UpdateDate).ToShortDateString())</td>
+                        <td>@Truncate(item.Config, 15)</td>
+                        <td>@Truncate(item.Describe, 15)</td>
+                        <td><img src="@(String.Concat("/Content/Images/", item.ImageURL))" alt="@item.ProductName" width="60" /></td>
+                        <td>@item.QuantityInStock</td>
+                        <td>
+                            @if (item.Status == true)
+                            {
+                                <p style="border: 1px solid; border-radius: 8px; display: flex; justify-content: center; align-items: center;"
+                                   class="bg-success text-bold">
+                                    Đang bán
+                                </p>
+                            }
+                            else
+                            {
+                                <p style="border: 1px solid; border-radius: 8px; display: flex; justify-content: center; align-items: center;"
+                                   class="bg-danger text-bold">
+                                    Bị gỡ
+                                </p>
+                            }
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Update", "AdminProduct", new { Id = item.ID })" class="btn btn-warning text-uppercase">Update</a>
+                            @if (item.Status == true)
+                            {
+                                <a href="@Url.Action("Diable", "AdminProduct", new { Id = item.ID, CurrentURL = Request.Url.ToString() })" class="btn btn-primary text-uppercase">Selling</a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Diable", "AdminProduct", new { Id = item.ID, CurrentURL = Request.Url.ToString() })" class="btn btn-danger text-uppercase">Disabled</a>
+                            }
+                        </td>
+                    </tr>
+                    ++i;
+                }
+            }
+        </tbody>
+    </table>
+</div>

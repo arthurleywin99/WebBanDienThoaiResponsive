@@ -36,7 +36,6 @@ namespace WebBanDienThoaiResponsive.Controllers
                         ImageURL = item.ImageURL,
                         QuantityInStock = item.QuantityInStock,
                         RatingCount = item.RatingCount,
-                        CommentCount = item.CommentCount,
                         OrderedCount = item.OrderedCount,
                         Status = item.Status
                     };
@@ -121,7 +120,6 @@ namespace WebBanDienThoaiResponsive.Controllers
                         ImageURL = item.ImageURL,
                         QuantityInStock = item.QuantityInStock,
                         RatingCount = item.RatingCount,
-                        CommentCount = item.CommentCount,
                         OrderedCount = item.OrderedCount,
                         Status = item.Status
                     };
@@ -199,7 +197,6 @@ namespace WebBanDienThoaiResponsive.Controllers
                     ImageURL = product.ImageURL,
                     QuantityInStock = product.QuantityInStock,
                     RatingCount = product.RatingCount,
-                    CommentCount = product.CommentCount,
                     OrderedCount = product.OrderedCount,
                     Status = product.Status
                 };

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using WebBanDienThoaiResponsive.Models;
 
 namespace WebBanDienThoaiResponsive.ViewModels
 {
@@ -42,5 +43,9 @@ namespace WebBanDienThoaiResponsive.ViewModels
         public bool? Status { get; set; }
 
         public double AverageRatingStar { get; set; }
+
+        public IEnumerable<Supplier> Suppliers { get; set; }
+        public IEnumerable<ProductType> ProductTypes { get; set; }
+        public IEnumerable<Brand> Brands { get; set; }
     }
 }

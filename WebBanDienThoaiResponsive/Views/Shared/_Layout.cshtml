@@ -12,6 +12,8 @@
     <script type="text/javascript" src="~/Scripts/umd/popper.min.js"></script>
     <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="~/Content/Plugins/ckfinder/ckfinder.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootbox.min.js"></script>
     <title>Web bán điện thoại</title>
 </head>
 
@@ -41,7 +43,7 @@
                 <div class="container bg-header">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-                            <img src="@string.Concat("/Content/", GetData("Logo"))" alt="Logo" width="125" />
+                            <img src="@string.Concat("/Content/", GetData("HeaderLogo"))" alt="Logo" width="125" />
                         </a>
 
                         <div class="form-inline">
@@ -66,17 +68,17 @@
                                         <i class="fas fa-home"></i>&nbsp;Trang chủ <span class="sr-only">(current)</span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item active">
                                     <a class="nav-link" href="@Url.Action("Index", "Product")">
                                         <i class="fas fa-mobile-alt"></i>&nbsp;Sản phẩm
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item active">
                                     <a class="nav-link" href="@Url.Action("Index", "AboutUs")">
                                         <i class="fas fa-info"></i>&nbsp;Về chúng tôi
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item active">
                                     <a class="nav-link" href="@Url.Action("SendContact", "Contact")">
                                         <i class="fas fa-address-card"></i>&nbsp;Liên hệ
                                     </a>
@@ -85,7 +87,7 @@
                                 @if (Session["Account"] == null)
                                 {
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-user"></i>&nbsp;Tài khoản
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -148,7 +150,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-                            <img src="@string.Concat("/Content/", GetData("Logo"))" alt="Logo" width="125" />
+                            <img src="@string.Concat("/Content/", GetData("FooterLogo"))" alt="Logo" width="125" />
                         </a>
                     </div>
                     <div class="col-md-2">
@@ -172,4 +174,5 @@
         </footer>
     </div>
 </body>
+@RenderSection("scripts", false)
 </html>

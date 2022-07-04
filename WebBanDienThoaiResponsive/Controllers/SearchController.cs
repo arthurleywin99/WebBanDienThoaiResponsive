@@ -70,12 +70,10 @@ namespace WebBanDienThoaiResponsive.Controllers
                         Price = item.Price,
                         Discount = item.Discount,
                         UpdateDate = item.UpdateDate,
-                        Config = item.Config,
                         Describe = item.Describe,
                         ImageURL = item.ImageURL,
                         QuantityInStock = item.QuantityInStock,
                         RatingCount = item.RatingCount,
-                        CommentCount = item.CommentCount,
                         OrderedCount = item.OrderedCount,
                         Status = item.Status
                     };
@@ -190,12 +188,10 @@ namespace WebBanDienThoaiResponsive.Controllers
                         Price = item.Price,
                         Discount = item.Discount,
                         UpdateDate = item.UpdateDate,
-                        Config = item.Config,
                         Describe = item.Describe,
                         ImageURL = item.ImageURL,
                         QuantityInStock = item.QuantityInStock,
                         RatingCount = item.RatingCount,
-                        CommentCount = item.CommentCount,
                         OrderedCount = item.OrderedCount,
                         Status = item.Status
                     };

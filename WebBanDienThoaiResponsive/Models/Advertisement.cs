@@ -14,8 +14,7 @@ namespace WebBanDienThoaiResponsive.Models
         [StringLength(100)]
         public string AdvertisementName { get; set; }
 
-        [StringLength(12)]
-        public string BeginDate { get; set; }
+        public DateTime? BeginDate { get; set; }
 
         public DateTime? EndDate { get; set; }
 

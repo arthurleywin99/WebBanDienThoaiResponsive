@@ -17,6 +17,8 @@ namespace WebBanDienThoaiResponsive.Models
 
         public Guid ID { get; set; }
 
+        public Guid? MemberID { get; set; }
+
         public DateTime OrderDate { get; set; }
 
         [StringLength(20)]
@@ -38,11 +40,6 @@ namespace WebBanDienThoaiResponsive.Models
         [StringLength(100)]
         public string OrderEmail { get; set; }
 
-        [StringLength(100)]
-        public string TransferID { get; set; }
-
-        public string Note { get; set; }
-
         [Required]
         [StringLength(50)]
         public string OrderName { get; set; }
@@ -50,7 +47,10 @@ namespace WebBanDienThoaiResponsive.Models
         [Required]
         public string OrderAddress { get; set; }
 
-        public Guid? MemberID { get; set; }
+        [StringLength(100)]
+        public string TransferID { get; set; }
+
+        public string Note { get; set; }
 
         public virtual MemberAccount MemberAccount { get; set; }
 

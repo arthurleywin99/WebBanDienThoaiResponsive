@@ -1,0 +1,69 @@
+﻿@using WebBanDienThoaiResponsive.Models;
+@model IEnumerable<WebBanDienThoaiResponsive.ViewModels.ShoppingCartViewModel>
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<a href="@ViewBag.BeforeURL" class="btn btn-primary">Back</a>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+            <h2 class="mb-md-3">Chi tiết đơn hàng</h2>
+            <div class="row m-md-1" style="border: 1px solid #17a2b8; border-radius: 10px;">
+                <div class="col-md-4">
+                    <p class="font-weight-bold">Mã đơn hàng</p>
+                    <p class="font-weight-bold">Ngày đặt</p>
+                    <p class="font-weight-bold">Ngày giao dự kiến</p>
+                    <p class="font-weight-bold">Người nhận</p>
+                    <p class="font-weight-bold">Địa chỉ nhận</p>
+                    <p class="font-weight-bold">Số điện thoại nhận</p>
+                    <p class="font-weight-bold">Tổng tiền</p>
+                    <p class="font-weight-bold">Hình thức thanh toán</p>
+                    <p class="font-weight-bold">Ghi chú</p>
+                </div>
+                <div class="col-md-8">
+                    @{
+                        Order order = ViewBag.Order as Order;
+                    }
+                    <p>@order.ID</p>
+                    <p>@order.OrderDate</p>
+                    <p>@order.DeliveryDate</p>
+                    <p>@order.OrderName</p>
+                    <p>@order.OrderAddress</p>
+                    <p>@order.OrderPhone</p>
+                    <p>@order.Total</p>
+                    <p>@(order.IsPaid == true ? "Thanh toán trực tuyến" : "Thanh toán khi nhận hàng")</p>
+                    <p>@(order.Note == null ? "" : ViewBag.Order.Note)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+            <h2 class="mb-md-3">Danh sách sản phẩm</h2>
+            <div style="border: 1px solid #dc3545; border-radius: 10px; ">
+                @foreach (var item in Model)
+                {
+                    <div class="row m-md-1 mb-md-4">
+                        <div class="col-md-2">
+                            <img src="~/Content/Images/@item.ImageUrl" width="50" alt="@item.ProductName" />
+                        </div>
+                        <div class="col-md-7">
+                            <p class="font-weight-bold">@item.ProductName</p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-md-flex">
+                                <p>Số lượng:&nbsp;</p>
+                                <p class="font-weight-bold">@item.Quantity</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>

@@ -86,14 +86,14 @@
             </div>
             <div>
                 <h3 class="font-weight-bold text-danger">@(Convert.ToInt32(Model.Price).ToString("#,##")) VNĐ</h3>
-                <h4 class="mb-md-3"><s>@(Convert.ToInt32(Model.Price).ToString("#,##")) VNĐ</s></h4>
+                <h4 class="mb-md-3"><s>@(Convert.ToInt32(Model.Discount).ToString("#,##")) VNĐ</s></h4>
                 <button 
                         type="button" 
                         class="btn btn-danger btn-lg btn-block p-md-0"
                         onclick="location.href = '@Url.Action("AddAndGoToShoppingCart", "ShoppingCart", new { @ProductID = Model.ID, @ProductName = Model.ProductName, @Price = Model.Price, @ImageUrl = Model.ImageURL })'"
                         >
-                    <h5 class="text-uppercase font-weight-bold">Mua ngay</h5>
-                    <h6>Giao tận nơi hoặc lấy tại cửa hàng</h6>
+                    <h5 class="text-uppercase font-weight-bold text-light">Mua ngay</h5>
+                    <h6 class="text-light">Giao tận nơi hoặc lấy tại cửa hàng</h6>
                 </button>
                 <button 
                         type="button" 
@@ -106,14 +106,12 @@
         </div>
         <div class="col-md-4">
             <h3><b>Thông số kỹ thuật</b></h3>
-            <div class="row rounded border mb-md-1">
-                <div class="col-md-4 p-md-1 d-flex align-items-center">
-                    <div>Màn hình:</div>
-                </div>
-                <div class="col-md-8 p-md-1">
-                    <div>AMOLED 6.67" Full HD+</div>
-                </div>
-            </div>
+            @Html.Raw(Model.Config)
         </div>
+    </div>
+    <hr />
+    <div>
+        <h3><b>Mô tả sản phẩm</b></h3>
+        @Html.Raw(@Model.Describe)
     </div>
 </div>

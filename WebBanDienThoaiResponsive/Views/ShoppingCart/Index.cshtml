@@ -40,7 +40,7 @@
                 using (Html.BeginForm("UpdateShoppingCart", "ShoppingCart", new { @Id = item.ID, @CurrentURL = Request.Url.ToString() }))
                 {
                     @Html.AntiForgeryToken()
-                    <div class="row rounded border border-secondary p-md-2 mb-md-1">
+                    <div id="@item.ProductName.Replace(" ", "").Replace("/", "").Replace("+", "plus")" class="row rounded border border-secondary p-md-2 mb-md-1">
                         <div class="col-md-3">
                             <img class="img-thumbnail mx-auto d-block rounded float-left w-75" src="~/Content/Images/@item.ImageUrl" alt="@item.ProductName" />
                         </div>
@@ -61,7 +61,11 @@
                                 <div>Giá tiền:&nbsp;</div>
                                 <h5 class="font-weight-bold text-danger">@(Convert.ToInt32(item.Price).ToString("#,##")) đ</h5>
                             </div>
-                            <button type="button" class="btn btn-danger mt-md-2">Xoá khỏi giỏ hàng</button>
+                            <button type="button"
+                                    class="btn btn-danger mt-md-2"
+                                    onclick="location.href = '@Url.Action("RemoveItem", "ShoppingCart", new { ProductID = item.ID, CurrentURL = Request.Url.ToString() })'">
+                                Xoá khỏi giỏ hàng
+                            </button>
                         </div>
                         <div class="col-md-4">
                             <div class="font-weight-bold text-danger text-right" style="font-size: 22px;">@(Convert.ToInt32(item.Price * item.Quantity).ToString("#,##")) đ</div>
@@ -103,6 +107,11 @@
                         class="btn btn-outline-info btn-lg btn-block p-md-2 text-uppercase font-weight-bold"
                         onclick="location.href = '@Url.Action("Index", "Home")'">
                     Chọn thêm
+                </button>
+                <button type="button"
+                        class="btn btn-outline-dark btn-lg btn-block p-md-2 text-uppercase font-weight-bold"
+                        onclick="location.href = '@Url.Action("RemoveAll", "ShoppingCart", new { CurrentURL = Request.Url.ToString() })'">
+                    Xoá tất cả
                 </button>
             </div>
         </div>
