@@ -14,8 +14,6 @@ namespace WebBanDienThoaiResponsive.ViewModels
         [DataType(DataType.EmailAddress)]
         [Required(ErrorMessage = "Email không được để trống")]
         [RegularExpression(@"^\w{1,}([-+.']\w{1,}){0,}@\w{1,}([-.]\w{1,}){0,}\.\w{1,}([-.]\w{1,}){0,}$", ErrorMessage = "Không đúng định dạng Email.")]
-        [MinLength(5, ErrorMessage = "Định dạng số điện thoại từ 5 - 25 ký tự số")]
-        [MaxLength(25, ErrorMessage = "Định dạng số điện thoại từ 5 - 25 ký tự số")]
         public string Email { get; set; }
 
         [DataType(DataType.Text)]

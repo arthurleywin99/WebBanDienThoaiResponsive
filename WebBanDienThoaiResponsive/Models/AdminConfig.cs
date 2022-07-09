@@ -16,12 +16,12 @@ namespace WebBanDienThoaiResponsive.Models
         public string AdEmail { get; set; }
 
         [Required]
-        [StringLength(64)]
-        public string AdPassword { get; set; }
-
-        [Required]
         [StringLength(12)]
         public string AdPhoneNumber { get; set; }
+
+        [Required]
+        [StringLength(64)]
+        public string AdPassword { get; set; }
 
         [Required]
         [StringLength(100)]

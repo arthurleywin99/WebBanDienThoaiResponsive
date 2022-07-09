@@ -13,6 +13,10 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Singin", "AdminAccount");
+            }
             using (var context = new Context())
             {
                 List<ProductType> productTypeList = context.ProductTypes.ToList();
@@ -35,6 +39,10 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Update(Guid Id)
         {
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Singin", "AdminAccount");
+            }
             using (var context = new Context())
             {
                 ProductType productType = context.ProductTypes.Single(p => p.ID == Id);
@@ -65,12 +73,41 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
 
         public ActionResult Disable(Guid Id, string CurrentURL)
         {
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Singin", "AdminAccount");
+            }
             using (var context = new Context())
             {
                 ProductType productType = context.ProductTypes.FirstOrDefault(p => p.ID == Id);
                 productType.Status = !productType.Status;
                 context.SaveChanges();
                 return Redirect(CurrentURL);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(ProductTypeViewModel viewModel)
+        {
+            using (var context = new Context())
+            {
+                ProductType productType = new ProductType
+                {
+                    ID = Guid.NewGuid(),
+                    ProductTypeName = viewModel.ProductTypeName,
+                    IconURL = viewModel.IconURL,
+                    Status = true
+                };
+                context.ProductTypes.Add(productType);
+                context.SaveChanges();
+                return RedirectToAction("Index", "AdminProduct");
             }
         }
     }

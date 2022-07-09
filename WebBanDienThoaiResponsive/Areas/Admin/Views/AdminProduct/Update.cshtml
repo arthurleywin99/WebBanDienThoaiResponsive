@@ -9,7 +9,7 @@
 <h2>Cập nhật sản phẩm</h2>
 
 <div class="container">
-    @using (Html.BeginForm("Update", "AdminProduct"))
+    @using (Html.BeginForm("Update", "AdminProduct", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
     <div class="form-horizontal">
@@ -83,15 +83,10 @@
         </div>
 
         <div class="form-group">
-            <div class="control-label col-md-2 text-bold mb-md-1">Ảnh</div>
-            <div id="imgContainer" class="col-md-10">
-                <input id="select-image"
-                       class="form-control"
-                       type="file"
-                       name="name"
-                       value="Chọn ảnh..."
-                       multiple="multiple"
-                       accept="image/jpeg, image/jpg" />
+            <label class="control-label col-md-2">Ảnh</label>
+
+            <div class="col-md-10">
+                @Html.TextBox("file", "", new { type = "file", @class = "form-control", @value = "Chọn ảnh...", @accept = "image/jpeg, image/jpg" })
             </div>
         </div>
 

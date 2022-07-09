@@ -28,15 +28,18 @@ namespace WebBanDienThoaiResponsive.Controllers
                         ProductTypeID = item.ProductTypeID,
                         BrandID = item.BrandID,
                         ProductName = item.ProductName,
-                        Price = item.Price,
-                        Discount = item.Discount,
+                        Price = Convert.ToDecimal(item.Price),
+                        Discount = Convert.ToDecimal(item.Discount),
                         UpdateDate = item.UpdateDate,
                         Config = item.Config,
                         Describe = item.Describe,
                         ImageURL = item.ImageURL,
-                        QuantityInStock = item.QuantityInStock,
-                        RatingCount = item.RatingCount,
-                        OrderedCount = item.OrderedCount,
+                        QuantityInStock = Convert.ToInt32(item.QuantityInStock),
+                        RatingCount = (from A in context.Products
+                                       join B in context.OrderDetails
+                                       on A.ID equals B.ProductID
+                                       where B.RatingStar != null & B.Content != null
+                                       select A).ToList().Count(p => p.ID == item.ID),
                         Status = item.Status
                     };
                     double averageStar = Convert.ToDouble(context.OrderDetails.Where(p => p.ProductID == productView.ID).ToList().Average(p => p.RatingStar));
@@ -112,15 +115,18 @@ namespace WebBanDienThoaiResponsive.Controllers
                         ProductTypeID = item.ProductTypeID,
                         BrandID = item.BrandID,
                         ProductName = item.ProductName,
-                        Price = item.Price,
-                        Discount = item.Discount,
+                        Price = Convert.ToDecimal(item.Price),
+                        Discount = Convert.ToDecimal(item.Discount),
                         UpdateDate = item.UpdateDate,
                         Config = item.Config,
                         Describe = item.Describe,
                         ImageURL = item.ImageURL,
-                        QuantityInStock = item.QuantityInStock,
-                        RatingCount = item.RatingCount,
-                        OrderedCount = item.OrderedCount,
+                        QuantityInStock = Convert.ToInt32(item.QuantityInStock),
+                        RatingCount = (from A in context.Products
+                                       join B in context.OrderDetails
+                                       on A.ID equals B.ProductID
+                                       where B.RatingStar != null & B.Content != null
+                                       select A).ToList().Count(p => p.ID == item.ID),
                         Status = item.Status
                     };
                     double averageStar = Convert.ToDouble(context.OrderDetails.Where(p => p.ProductID == productView.ID).ToList().Average(p => p.RatingStar));
@@ -189,15 +195,18 @@ namespace WebBanDienThoaiResponsive.Controllers
                     ProductTypeID = product.ProductTypeID,
                     BrandID = product.BrandID,
                     ProductName = product.ProductName,
-                    Price = product.Price,
-                    Discount = product.Discount,
+                    Price = Convert.ToDecimal(product.Price),
+                    Discount = Convert.ToDecimal(product.Discount),
                     UpdateDate = product.UpdateDate,
                     Config = product.Config,
                     Describe = product.Describe,
                     ImageURL = product.ImageURL,
-                    QuantityInStock = product.QuantityInStock,
-                    RatingCount = product.RatingCount,
-                    OrderedCount = product.OrderedCount,
+                    QuantityInStock = Convert.ToInt32(product.QuantityInStock),
+                    RatingCount = (from A in context.Products
+                                   join B in context.OrderDetails
+                                   on A.ID equals B.ProductID
+                                   where B.RatingStar != null & B.Content != null
+                                   select A).ToList().Count(p => p.ID == product.ID),
                     Status = product.Status
                 };
                 double averageStar = Convert.ToDouble(context.OrderDetails.Where(p => p.ProductID == productView.ID).ToList().Average(p => p.RatingStar));

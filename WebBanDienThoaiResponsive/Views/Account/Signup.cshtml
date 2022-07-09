@@ -1,4 +1,5 @@
-﻿@model WebBanDienThoaiResponsive.ViewModels.SignupViewModel
+﻿@using WebBanDienThoaiResponsive.Models;
+@model WebBanDienThoaiResponsive.ViewModels.SignupViewModel
 @{
     Layout = null;
 }
@@ -17,12 +18,31 @@
     <script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
     <title>Đăng nhập</title>
 </head>
+
+@functions {
+    public static string GetData(string keyword)
+    {
+        using (var context = new Context())
+        {
+            bool isExist = context.WebInfoes.Any(p => p.Keyword == keyword);
+            if (isExist)
+            {
+                return context.WebInfoes.Single(p => p.Keyword == keyword).Value;
+            }
+            else
+            {
+                return "";
+            }
+        }
+    }
+}
+
 <body>
     <div class="container">
         <div class="row">
             <div class="col-md-3 align-self-start"></div>
             <div class="col-md-6 align-self-center">
-                <img class="mx-auto d-block" src="~/Content/Images/head-logo.png" style="width: 50%;" alt="Alternate Text" />
+                <img class="mx-auto d-block" src="@string.Concat("/Content/", GetData("HeaderLogo"))" style="width: 50%;" alt="Alternate Text" />
                 <div class="rounded border border-secondary p-md-5">
                     <h2 class="font-weight-bold mb-md-4">Đăng Ký</h2>
                     @using (Html.BeginForm("Signup", "Account"))
@@ -98,7 +118,7 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="inputGroupSelect01">Câu hỏi bảo mật</label>
                             </div>
-                            @Html.DropDownListFor(p => p.IDQuestion, new SelectList(ViewBag.AuthenticationQAList, "ID", "Question"), new { @class = "custom-select", id = "inputGroupSelect01" })
+                            @Html.DropDownListFor(p => p.IDQuestion, new SelectList(ViewBag.AuthenticationQAList, "ID", "Question"), new { @class = "custom-select" })
                         </div>
 
                         <h6>Câu trả lời</h6>

@@ -10,7 +10,6 @@ namespace WebBanDienThoaiResponsive.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: Home
         public ActionResult Index()
         {
             return View();
@@ -51,11 +50,14 @@ namespace WebBanDienThoaiResponsive.Controllers
         {
             using (var context = new Context())
             {
-                List<Product> cellphoneList = (from A in context.Products
-                                               join B in context.ProductTypes on A.ProductTypeID equals B.ID
-                                               where B.ProductTypeName.Equals("Điện thoại")
-                                               orderby A.OrderedCount
-                                               select A).OrderBy(p => p.OrderedCount).Take(12).ToList();
+                List<Product> cellphoneList = new List<Product>();
+                List<Top12CellPhone> topCellPhoneList = context.Top12CellPhone.ToList();
+                foreach (var item in topCellPhoneList)
+                {
+                    Product product = context.Products.Single(p => p.ID == item.ID);
+                    cellphoneList.Add(product);
+                }
+
                 List<ProductViewModel> productViewModelList = new List<ProductViewModel>();
                 foreach (var item in cellphoneList)
                 {
@@ -66,14 +68,17 @@ namespace WebBanDienThoaiResponsive.Controllers
                         ProductTypeID = item.ProductTypeID,
                         BrandID = item.BrandID,
                         ProductName = item.ProductName,
-                        Price = item.Price,
-                        Discount = item.Discount,
+                        Price = Convert.ToDecimal(item.Price),
+                        Discount = Convert.ToDecimal(item.Discount),
                         UpdateDate = item.UpdateDate,
                         Describe = item.Describe,
                         ImageURL = item.ImageURL,
-                        QuantityInStock = item.QuantityInStock,
-                        RatingCount = item.RatingCount,
-                        OrderedCount = item.OrderedCount,
+                        QuantityInStock = Convert.ToInt32(item.QuantityInStock),
+                        RatingCount = (from A in context.Products
+                                       join B in context.OrderDetails
+                                       on A.ID equals B.ProductID
+                                       where B.RatingStar != null & B.Content != null
+                                       select A).ToList().Count(p => p.ID == item.ID),
                         Status = item.Status
                     };
                     double averageStar = Convert.ToDouble(context.OrderDetails.Where(p => p.ProductID == productView.ID).ToList().Average(p => p.RatingStar));
@@ -101,11 +106,14 @@ namespace WebBanDienThoaiResponsive.Controllers
         {
             using (var context = new Context())
             {
-                List<Product> laptopList = (from A in context.Products
-                                            join B in context.ProductTypes on A.ProductTypeID equals B.ID
-                                            where B.ProductTypeName.Equals("Laptop")
-                                            orderby A.OrderedCount
-                                            select A).OrderBy(p => p.OrderedCount).Take(12).ToList();
+                List<Product> laptopList = new List<Product>();
+                List<Top12Laptop> topLaptopList = context.Top12Laptop.ToList();
+                foreach (var item in topLaptopList)
+                {
+                    Product product = context.Products.Single(p => p.ID == item.ID);
+                    laptopList.Add(product);
+                }
+
                 List<ProductViewModel> productViewModelList = new List<ProductViewModel>();
                 foreach (var item in laptopList)
                 {
@@ -116,14 +124,17 @@ namespace WebBanDienThoaiResponsive.Controllers
                         ProductTypeID = item.ProductTypeID,
                         BrandID = item.BrandID,
                         ProductName = item.ProductName,
-                        Price = item.Price,
-                        Discount = item.Discount,
+                        Price = Convert.ToDecimal(item.Price),
+                        Discount = Convert.ToDecimal(item.Discount),
                         UpdateDate = item.UpdateDate,
                         Describe = item.Describe,
                         ImageURL = item.ImageURL,
-                        QuantityInStock = item.QuantityInStock,
-                        RatingCount = item.RatingCount,
-                        OrderedCount = item.OrderedCount,
+                        QuantityInStock = Convert.ToInt32(item.QuantityInStock),
+                        RatingCount = (from A in context.Products
+                                       join B in context.OrderDetails
+                                       on A.ID equals B.ProductID
+                                       where B.RatingStar != null & B.Content != null
+                                       select A).ToList().Count(p => p.ID == item.ID),
                         Status = item.Status
                     };
                     double averageStar = Convert.ToDouble(context.OrderDetails.Where(p => p.ProductID == productView.ID).ToList().Average(p => p.RatingStar));

@@ -1,9 +1,8 @@
-﻿@model IEnumerable<WebBanDienThoaiResponsive.ViewModels.ProductTypeViewModel>
+﻿@model IEnumerable<WebBanDienThoaiResponsive.Models.WebInfo>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
 
 @helper Truncate(string input, int length)
 {
@@ -17,17 +16,17 @@
     }
 }
 
-<h2>Product Type</h2>
+<h2>Web Information</h2>
 
 <div class="container-fluid bg-gray-light">
-    <a href="@Url.Action("Create", "AdminProductType")" class="btn btn-success text-uppercase mb-md-1">Create</a>
+    <a href="#" class="btn btn-success text-uppercase mb-md-1">Create</a>
     <table class="table">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">ID</th>
-                <th scope="col">Tên loại sản phẩm</th>
-                <th scope="col">Icon</th>
+                <th scope="col">Từ khoá</th>
+                <th scope="col">Giá trị</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col"></th>
             </tr>
@@ -40,14 +39,14 @@
                     <tr>
                         <th scope="row">@i</th>
                         <td>@item.ID</td>
-                        <td>@Truncate(item.ProductTypeName, 30)</td>
-                        <td><i class="@item.IconURL"></i></td>
+                        <td>@Truncate(item.Keyword, 15)</td>
+                        <td>@Truncate(item.Value, 15)</td>
                         <td>
                             @if (item.Status == true)
                             {
                                 <p style="border: 1px solid; border-radius: 8px; display: flex; justify-content: center; align-items: center;"
                                    class="bg-success text-bold">
-                                    Đang bán
+                                    Đang sử dụng
                                 </p>
                             }
                             else
@@ -59,14 +58,14 @@
                             }
                         </td>
                         <td>
-                            <a href="@Url.Action("Update", "AdminProductType", new { Id = item.ID })" class="btn btn-warning text-uppercase">Update</a>
+                            <a href="@Url.Action("Update", "AdminWebInfo", new { Id = item.ID })" class="btn btn-warning text-uppercase">Update</a>
                             @if (item.Status == true)
                             {
-                                <a href="@Url.Action("Diable", "AdminProductType", new { Id = item.ID, CurrentURL = Request.Url.ToString() })" class="btn btn-primary text-uppercase">Selling</a>
+                                <a href="@Url.Action("Diable", "AdminWebInfo", new { Id = item.ID, CurrentURL = Request.Url.ToString() })" class="btn btn-primary text-uppercase">Selling</a>
                             }
                             else
                             {
-                                <a href="@Url.Action("Diable", "AdminProductType", new { Id = item.ID, CurrentURL = Request.Url.ToString() })" class="btn btn-danger text-uppercase">Disabled</a>
+                                <a href="@Url.Action("Diable", "AdminWebInfo", new { Id = item.ID, CurrentURL = Request.Url.ToString() })" class="btn btn-danger text-uppercase">Disabled</a>
                             }
                         </td>
                     </tr>

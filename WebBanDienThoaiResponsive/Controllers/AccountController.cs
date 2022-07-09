@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Web.Configuration;
 using System.Web.Mvc;
+using Facebook;
+using WebBanDienThoaiResponsive.Helper;
 using WebBanDienThoaiResponsive.Models;
 using WebBanDienThoaiResponsive.ViewModels;
 
@@ -9,6 +13,18 @@ namespace WebBanDienThoaiResponsive.Controllers
 {
     public class AccountController : Controller
     {
+        private Uri RedirectUri
+        {
+            get
+            {
+                var uriBuilder = new UriBuilder(Request.Url);
+                uriBuilder.Query = null;
+                uriBuilder.Fragment = null;
+                uriBuilder.Path = Url.Action("FacebookCallBack");
+                return uriBuilder.Uri;
+            }
+        }
+
         [HttpGet]
         public ActionResult Signin()
         {
@@ -36,17 +52,15 @@ namespace WebBanDienThoaiResponsive.Controllers
                         ViewData["SigninError"] = "Tên tài khoản hoặc mật khẩu không chính xác";
                         return View();
                     }
-                    else 
+                    else
                     {
                         if (memberWithEmail != null)
                         {
-                            string[] Name = memberWithEmail.FullName.Split(' ');
                             Session["Account"] = memberWithEmail;
                             return RedirectToAction("Index", "Home");
                         }
                         else if (memberWithPhone != null)
                         {
-                            string[] Name = memberWithPhone.FullName.Split(' ');
                             Session["Account"] = memberWithPhone;
                             return RedirectToAction("Index", "Home");
                         }
@@ -104,7 +118,7 @@ namespace WebBanDienThoaiResponsive.Controllers
                     ViewData["IsCheck"] = "Bạn chưa đồng ý với điều khoản dịch vụ của chúng tôi";
                     return View();
                 }
-                if (String.IsNullOrEmpty(answer) || answer.Length == 0)
+                if (string.IsNullOrEmpty(answer) || answer.Length == 0)
                 {
                     ViewData["IsAnswer"] = "Bạn chưa điền câu trả lời";
                     return View();
@@ -135,6 +149,7 @@ namespace WebBanDienThoaiResponsive.Controllers
                         PhoneNumber = phoneNumber,
                         IDQuestion = IdQuestion,
                         Answer = answer,
+                        JoinDate = DateTime.Now,
                         Status = true
                     };
                     context.MemberAccounts.Add(member);
@@ -153,8 +168,87 @@ namespace WebBanDienThoaiResponsive.Controllers
         }
 
         public ActionResult ForgotPassword()
-        {                 
+        {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Recover(FormCollection form)
+        {
+            using (var context = new Context())
+            {
+                string Email = form["Email"];
+
+                if (!context.MemberAccounts.Any(p => p.Email == Email))
+                {
+                    ViewData["Error"] = "Không tồn tại tài khoản nào có email này";
+                    return View();
+                }
+                else
+                {
+                    int RandomInt = new Random().Next(1000, 9999);
+                    MemberAccount account = context.MemberAccounts.Single(p => p.Email == Email);
+                    account.ResetPasswordCode = RandomInt.ToString();
+                    string content = "<!DOCTYPE html> <html><head><title></title><meta charset='UTF-8'/></head> <body><p>Mã khôi phục tài khoản <b>" + RandomInt + "</b></p></body></html>";
+                    MailHelper.SendMail(Email, "Khôi phục tài khoản", content);
+                    context.SaveChanges();
+                    Session["ResetEmail"] = form["Email"];
+                    return RedirectToAction("RecoverCodeConfirm", "Account");
+                }
+            }
+        }
+
+        [HttpGet]
+        public ActionResult RecoverCodeConfirm()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RecoverCodeConfirm(FormCollection form)
+        {
+            using (var context = new Context())
+            {
+                string code = form["RecoverCode"];
+                string email = Session["ResetEmail"] as string;
+
+                if (context.MemberAccounts.Any(p => p.Email == email))
+                {
+                    string recoverCode = context.MemberAccounts.Single(p => p.Email == email).ResetPasswordCode;
+                    if (recoverCode == code)
+                    {
+                        return RedirectToAction("ResetPass", "Home");
+                    }
+                }
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ResetPass()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPass(FormCollection form)
+        {
+            using (var context = new Context())
+            {
+                string email = Session["ResetEmail"] as string;
+                Session["ResetEmail"] = null;
+                string password = form["Password"];
+                if (context.MemberAccounts.Any(p => p.Password == password))
+                {
+                    MemberAccount account = context.MemberAccounts.Single(p => p.Email == email);
+                    account.Password = Utility.MD5Hash(password);
+                    context.SaveChanges();
+                    return RedirectToAction("Index", "Home");
+                }
+                return View();
+            }
         }
 
         [HttpGet]
@@ -165,10 +259,10 @@ namespace WebBanDienThoaiResponsive.Controllers
             using (var context = new Context())
             {
                 AccountType AccountType = (from A in context.MemberAccounts
-                                          join B in context.AccountTypes
-                                          on A.MemberTypeID equals B.ID
-                                          where A.MemberTypeID == TypeID
-                                          select B).FirstOrDefault();
+                                           join B in context.AccountTypes
+                                           on A.MemberTypeID equals B.ID
+                                           where A.MemberTypeID == TypeID
+                                           select B).FirstOrDefault();
                 ViewBag.AccountType = AccountType;
                 return View();
             }
@@ -280,9 +374,6 @@ namespace WebBanDienThoaiResponsive.Controllers
                 {
                     detail.Content = "";
                 }
-                Product product = context.Products.FirstOrDefault(p => p.ID == detail.ProductID);
-                product.RatingCount++;
-                context.SaveChanges();
                 return Redirect(CurrentURL);
             }
         }
@@ -447,6 +538,68 @@ namespace WebBanDienThoaiResponsive.Controllers
                     }
                 }
             }
+        }
+
+        public ActionResult FacebookSignin()
+        {
+            var fb = new FacebookClient();
+            var loginUrl = fb.GetLoginUrl(new
+            {
+                client_id = ConfigurationManager.AppSettings["FbAppId"],
+                client_secret = ConfigurationManager.AppSettings["FbAppSecret"],
+                redirect_uri = RedirectUri.AbsoluteUri,
+                response_type = "code",
+                scope = "email"
+            });
+
+            return Redirect(loginUrl.AbsoluteUri);
+        }
+
+        public ActionResult FaceBookCallBack(string code)
+        {
+            var fb = new FacebookClient();
+            dynamic result = fb.Post("oauth/access_token", new
+            {
+                client_id = ConfigurationManager.AppSettings["FbAppId"],
+                client_secret = ConfigurationManager.AppSettings["FbAppSecret"],
+                redirect_uri = RedirectUri.AbsoluteUri,
+                code
+            });
+
+            var accessToken = result.access_token;
+            if (!string.IsNullOrEmpty(accessToken))
+            {
+                dynamic me = fb.Get($"me?access_token={accessToken}&fields=id,birthday,email,name,hometown");
+                string email = me.email;
+                DateTime birthDay = Convert.ToDateTime(me.birthday);
+                string address = me.hometown.name;
+                string fullName = me.name;
+
+                using (var context = new Context())
+                {
+                    MemberAccount memberAccount = new MemberAccount
+                    {
+                        ID = Guid.NewGuid(),
+                        Email = email,
+                        FullName = fullName,
+                        BirthDate = birthDay,
+                        Address = address,
+                        MemberTypeID = context.AccountTypes.Single(p => p.UserTypeName == "Basic").ID,
+                        JoinDate = DateTime.Now
+                    };
+
+                    Session["Account"] = memberAccount;
+
+                    if (!context.MemberAccounts.Any(p => p.Email == email))
+                    {
+                        context.MemberAccounts.Add(memberAccount);
+                        context.SaveChanges();
+                    }
+                    return RedirectToAction("Index", "Home");
+                }
+
+            }
+            return Redirect("/");
         }
     }
 }

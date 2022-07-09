@@ -41,10 +41,6 @@ namespace WebBanDienThoaiResponsive.Models
 
         public int? QuantityInStock { get; set; }
 
-        public int? RatingCount { get; set; }
-
-        public int? OrderedCount { get; set; }
-
         public bool? Status { get; set; }
 
         public virtual Brand Brand { get; set; }

@@ -6,14 +6,13 @@ using System.Web.Mvc;
 
 namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
 {
-    public class AdminStatisticController : Controller
+    public class AdminSetRoleController : Controller
     {
-        [HttpGet]
         public ActionResult Index()
         {
             if (Session["AdminAccount"] == null)
             {
-                return RedirectToAction("Signin", "AdminAccount");
+                return RedirectToAction("Singin", "AdminAccount");
             }
             return View();
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebBanDienThoaiResponsive.Helper;
 using WebBanDienThoaiResponsive.Models;
 using WebBanDienThoaiResponsive.ViewModels;
 
@@ -55,6 +56,10 @@ namespace WebBanDienThoaiResponsive.Controllers
                     };
                     context.QAndAs.Add(qAndA);
                     context.SaveChanges();
+
+                    string data = "Cám ơn bạn đã gửi thông tin thắc mắc cho chúng tôi. Sẽ gửi phản hồi đến với bạn trong thời gian sớm nhất!";
+
+                    MailHelper.SendMail(email, "Thông tin liên hệ từ Website", data);
                     return RedirectToAction("Index", "Home");
                 }
             }

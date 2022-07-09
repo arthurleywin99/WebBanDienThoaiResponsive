@@ -30,8 +30,8 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
                 string password = Utility.MD5Hash(viewModel.Password.ToString().Trim());
                 using (var context = new Context())
                 {
-                    bool isExist = context.MemberAccounts.Any(p => p.Email.Trim().ToUpper().Equals(username.ToUpper()) && p.Password.Trim().Equals(password))
-                        || context.MemberAccounts.Any(p => p.PhoneNumber.Trim().ToUpper().Equals(username.ToUpper()) && p.Password.Trim().Equals(password));
+                    bool isExist = context.AdminConfigs.Any(p => p.AdEmail.Trim().ToUpper().Equals(username.ToUpper()) && p.AdPassword.Trim().Equals(password))
+                        || context.AdminConfigs.Any(p => p.AdPhoneNumber.Trim().ToUpper().Equals(username.ToUpper()) && p.AdPassword.Trim().Equals(password));
                     if (isExist == false)
                     {
                         ViewData["SigninError"] = "Tên tài khoản hoặc mật khẩu không chính xác";
@@ -39,43 +39,32 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
                     }
                     else
                     {
-                        MemberAccount memberWithEmail = context.MemberAccounts.FirstOrDefault(p => p.Email.Trim().ToUpper().Equals(username.ToUpper()) && p.Password.Trim().Equals(password));
-                        MemberAccount memberWithPhone = context.MemberAccounts.FirstOrDefault(p => p.PhoneNumber.Trim().ToUpper().Equals(username.ToUpper()) && p.Password.Trim().Equals(password));
+                        AdminConfig memberWithEmail = context.AdminConfigs.FirstOrDefault(p => p.AdEmail.Trim().ToUpper().Equals(username.ToUpper()) && p.AdPassword.Trim().Equals(password));
+                        AdminConfig memberWithPhone = context.AdminConfigs.FirstOrDefault(p => p.AdPhoneNumber.Trim().ToUpper().Equals(username.ToUpper()) && p.AdPassword.Trim().Equals(password));
 
                         if (memberWithEmail != null)
                         {
-                            if (context.AccountTypes.FirstOrDefault(p => p.ID == memberWithEmail.MemberTypeID).UserTypeName == "Admin")
-                            {
-                                string[] Name = memberWithEmail.FullName.Split(' ');
-                                Session["Account"] = memberWithEmail;
-                                return RedirectToAction("Index", "AdminStatistic");
-                            }
-                            else
-                            {
-                                ViewData["SigninError"] = "Bạn không có quyền vào trang quản trị";
-                            }
+                            string[] Name = memberWithEmail.Name.Split(' ');
+                            Session["AdminAccount"] = memberWithEmail;
+                            return RedirectToAction("Index", "AdminStatistic");
                         }
                         else if (memberWithPhone != null)
                         {
-                            if (context.AccountTypes.FirstOrDefault(p => p.ID == memberWithPhone.MemberTypeID).UserTypeName == "Admin")
-                            {
-                                string[] Name = memberWithPhone.FullName.Split(' ');
-                                Session["Account"] = memberWithPhone;
-                                return RedirectToAction("Index", "AdminStatistic");
-                            }
-                            else
-                            {
-                                ViewData["SigninError"] = "Bạn không có quyền vào trang quản trị";
-                            }
-                        }
-                        else
-                        {
-                            return HttpNotFound();
+                            string[] Name = memberWithPhone.Name.Split(' ');
+                            Session["AdminAccount"] = memberWithPhone;
+                            return RedirectToAction("Index", "AdminStatistic");
                         }
                     }
+                    return HttpNotFound();
                 }
             }
-            return View();
+        }
+
+        [HttpGet]
+        public ActionResult UpdateAccount()
+        {
+            AdminConfig adminAccount = Session["AdminAccount"] as AdminConfig;
+            return View(adminAccount);
         }
     }
 }

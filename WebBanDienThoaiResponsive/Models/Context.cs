@@ -30,6 +30,8 @@ namespace WebBanDienThoaiResponsive.Models
         public virtual DbSet<QAndA> QAndAs { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<WebInfo> WebInfoes { get; set; }
+        public virtual DbSet<Top12CellPhone> Top12CellPhone { get; set; }
+        public virtual DbSet<Top12Laptop> Top12Laptop { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -48,11 +50,11 @@ namespace WebBanDienThoaiResponsive.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<AdminConfig>()
-                .Property(e => e.AdPassword)
+                .Property(e => e.AdPhoneNumber)
                 .IsUnicode(false);
 
             modelBuilder.Entity<AdminConfig>()
-                .Property(e => e.AdPhoneNumber)
+                .Property(e => e.AdPassword)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Advertisement>()
@@ -65,9 +67,12 @@ namespace WebBanDienThoaiResponsive.Models
 
             modelBuilder.Entity<AuthenticationQAndA>()
                 .HasMany(e => e.MemberAccounts)
-                .WithRequired(e => e.AuthenticationQAndA)
-                .HasForeignKey(e => e.IDQuestion)
-                .WillCascadeOnDelete(false);
+                .WithOptional(e => e.AuthenticationQAndA)
+                .HasForeignKey(e => e.IDQuestion);
+
+            modelBuilder.Entity<Banner>()
+                .Property(e => e.ImageURL)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Banner>()
                 .Property(e => e.LinkTo)
@@ -79,6 +84,10 @@ namespace WebBanDienThoaiResponsive.Models
 
             modelBuilder.Entity<BrandAdvertisement>()
                 .Property(e => e.URLTo)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<CarouselSlider>()
+                .Property(e => e.ImageURL)
                 .IsUnicode(false);
 
             modelBuilder.Entity<CarouselSlider>()
@@ -176,10 +185,12 @@ namespace WebBanDienThoaiResponsive.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Supplier>()
+                .Property(e => e.Email)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Supplier>()
                 .Property(e => e.PhoneNumber)
                 .IsUnicode(false);
         }
-
-        public System.Data.Entity.DbSet<WebBanDienThoaiResponsive.ViewModels.ProductTypeViewModel> ProductTypeViewModels { get; set; }
     }
 }

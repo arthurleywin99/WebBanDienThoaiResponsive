@@ -13,6 +13,10 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Singin", "AdminAccount");
+            }
             using (var context = new Context())
             {
                 List<Supplier> supplierList = context.Suppliers.ToList();
@@ -37,6 +41,10 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Update(Guid Id)
         {
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Singin", "AdminAccount");
+            }
             using (var context = new Context())
             {
                 if (!context.Suppliers.Any(p => p.ID == Id))
@@ -78,6 +86,10 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
 
         public ActionResult Disable(Guid Id, string CurrentURL)
         {
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Singin", "AdminAccount");
+            }
             using (var context = new Context())
             {
                 Supplier supplier = context.Suppliers.Single(p => p.ID == Id);

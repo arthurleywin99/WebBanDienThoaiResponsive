@@ -1,4 +1,5 @@
-﻿@model WebBanDienThoaiResponsive.ViewModels.SigninViewModel
+﻿@using WebBanDienThoaiResponsive.Models;
+@model WebBanDienThoaiResponsive.ViewModels.SigninViewModel
 @{
     Layout = null;
 }
@@ -13,6 +14,7 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.2.0/css/all.css">
+    <link href="~/Content/bootstrap-social.css" rel="stylesheet" />
     <script type="text/javascript" src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
     <script type="text/javascript" src="~/Scripts/umd/popper.min.js"></script>
@@ -20,14 +22,32 @@
     <script type="text/javascript" src="~/Scripts/bootstrap.bundle.min.js"></script>
     <title>Đăng nhập</title>
 </head>
+
+@functions {
+    public static string GetData(string keyword)
+    {
+        using (var context = new Context())
+        {
+            bool isExist = context.WebInfoes.Any(p => p.Keyword == keyword);
+            if (isExist)
+            {
+                return context.WebInfoes.Single(p => p.Keyword == keyword).Value;
+            }
+            else
+            {
+                return "";
+            }
+        }
+    }
+}
+
 <body>
     <div class="container">
         <div class="row">
             <div class="col-md-3 align-self-start">
-
             </div>
             <div class="col-md-6 align-self-center">
-                <img class="mx-auto d-block" src="~/Content/Images/head-logo.png" style="width: 50%;" alt="Alternate Text" />
+                <img class="mx-auto d-block" src="@string.Concat("/Content/", GetData("HeaderLogo"))" style="width: 50%;" alt="Alternate Text" />
                 <div class="rounded border border-secondary p-md-5">
                     <h2 class="font-weight-bold mb-md-4">Đăng Nhập</h2>
                     @using (Html.BeginForm("Signin", "Account"))
@@ -58,17 +78,25 @@
                         <div class="mb-md-5">
                             @Html.ValidationMessageFor(p => p.Username, "", new { @class = "text-center text-danger" })
                         </div>
-
                         <p class="text-danger text-center">@ViewData["SigninError"]</p>
                         <button type="submit" class="btn btn-primary btn-lg btn-block text-uppercase mb-md-3">Đăng nhập</button>
                     }
+                    <div class="text-center">
+                        <label class="text-secondary">Hoặc</label>
+                    </div>
+
+                    <a class="btn btn-block btn-social btn-facebook" href="@Url.Action("FacebookSignin", "Account")">
+                        <span class="fab fa-facebook-square text-light"></span> Đăng nhập bằng Facebook
+                    </a>
+
+                    <hr />
                     <p class="text-center text-secondary">Chưa có tài khoản</p>
                     <button type="button"
                             class="btn btn-secondary btn-lg btn-block mb-md-1"
                             onclick="location.href = '@Url.Action("Signup", "Account")'">
                         Tạo tài khoản
                     </button>
-                    <p class="text-right text-secondary font-weight-bold">Quên mật khẩu?</p>
+                    <a href="@Url.Action("ForgotPassword", "Account")" class="text-secondary font-weight-bold text-decoration-none" style="cursor: pointer;">Quên mật khẩu?</a>
                 </div>
             </div>
             <div>

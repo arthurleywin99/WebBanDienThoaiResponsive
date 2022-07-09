@@ -84,12 +84,6 @@ namespace WebBanDienThoaiResponsive.Controllers
 
                 context.Orders.Add(order);
                 context.SaveChanges();
-                foreach (var item in carts)
-                {
-                    Product product = context.Products.FirstOrDefault(p => p.ID == item.ID);
-                    product.OrderedCount++;
-                    context.SaveChanges();
-                }
 
                 foreach (var item in carts)
                 {

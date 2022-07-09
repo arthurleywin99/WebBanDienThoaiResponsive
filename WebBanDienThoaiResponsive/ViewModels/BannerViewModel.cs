@@ -6,17 +6,16 @@ using System.Web;
 
 namespace WebBanDienThoaiResponsive.ViewModels
 {
-    public class ProductTypeViewModel
+    public class BannerViewModel
     {
         public Guid ID { get; set; }
 
-        [Required(ErrorMessage = "Không được để trống tên loại sản phẩm")]
         [StringLength(100)]
-        public string ProductTypeName { get; set; }
+        public string BannerName { get; set; }
 
-        [Required(ErrorMessage = "Không được để trống icon")]
+        public string ImageURL { get; set; }
 
-        public string IconURL { get; set; }
+        public string LinkTo { get; set; }
 
         public bool? Status { get; set; }
     }

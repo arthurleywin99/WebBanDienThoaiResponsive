@@ -23,7 +23,6 @@ namespace WebBanDienThoaiResponsive.Models
         [StringLength(255)]
         public string Email { get; set; }
 
-        [Required]
         [StringLength(65)]
         public string Password { get; set; }
 
@@ -35,7 +34,7 @@ namespace WebBanDienThoaiResponsive.Models
         [StringLength(15)]
         public string PhoneNumber { get; set; }
 
-        public Guid IDQuestion { get; set; }
+        public Guid? IDQuestion { get; set; }
 
         public string Answer { get; set; }
 

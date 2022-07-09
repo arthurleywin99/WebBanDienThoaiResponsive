@@ -6,16 +6,10 @@ namespace WebBanDienThoaiResponsive.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("WebInfo")]
-    public partial class WebInfo
+    public partial class Top12CellPhone
     {
         public Guid ID { get; set; }
 
-        [StringLength(150)]
-        public string Keyword { get; set; }
-
-        public string Value { get; set; }
-
-        public bool? Status { get; set; }
+        public int? CountOrder { get; set; }
     }
 }

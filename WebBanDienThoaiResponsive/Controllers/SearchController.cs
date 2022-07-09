@@ -67,14 +67,12 @@ namespace WebBanDienThoaiResponsive.Controllers
                         ProductTypeID = item.ProductTypeID,
                         BrandID = item.BrandID,
                         ProductName = item.ProductName,
-                        Price = item.Price,
-                        Discount = item.Discount,
+                        Price = Convert.ToDecimal(item.Price),
+                        Discount = Convert.ToDecimal(item.Discount),
                         UpdateDate = item.UpdateDate,
                         Describe = item.Describe,
                         ImageURL = item.ImageURL,
-                        QuantityInStock = item.QuantityInStock,
-                        RatingCount = item.RatingCount,
-                        OrderedCount = item.OrderedCount,
+                        QuantityInStock = Convert.ToInt32(item.QuantityInStock),
                         Status = item.Status
                     };
                     double averageStar = Convert.ToDouble(context.OrderDetails.Where(p => p.ProductID == productView.ID).ToList().Average(p => p.RatingStar));
@@ -185,14 +183,12 @@ namespace WebBanDienThoaiResponsive.Controllers
                         ProductTypeID = item.ProductTypeID,
                         BrandID = item.BrandID,
                         ProductName = item.ProductName,
-                        Price = item.Price,
-                        Discount = item.Discount,
+                        Price = Convert.ToDecimal(item.Price),
+                        Discount = Convert.ToDecimal(item.Discount),
                         UpdateDate = item.UpdateDate,
                         Describe = item.Describe,
                         ImageURL = item.ImageURL,
-                        QuantityInStock = item.QuantityInStock,
-                        RatingCount = item.RatingCount,
-                        OrderedCount = item.OrderedCount,
+                        QuantityInStock = Convert.ToInt32(item.QuantityInStock),
                         Status = item.Status
                     };
                     double averageStar = Convert.ToDouble(context.OrderDetails.Where(p => p.ProductID == productView.ID).ToList().Average(p => p.RatingStar));
