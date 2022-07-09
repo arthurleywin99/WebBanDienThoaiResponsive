@@ -33,6 +33,10 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
             {
                 return RedirectToAction("Signin", "AdminAccount");
             }
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index", "AdminProduct");
+            }
             using (var context = new Context())
             {
                 Product product = context.Products.FirstOrDefault(p => p.ID == Id);
@@ -63,8 +67,36 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Update(ProductViewModel viewModel, FormCollection form, HttpPostedFileBase file)
         {
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Signin", "AdminAccount");
+            }
             using (var context = new Context())
             {
+                if (!ModelState.IsValid)
+                {
+                    Product product = context.Products.FirstOrDefault(p => p.ID == viewModel.ID);
+                    ProductViewModel productViewModel = new ProductViewModel
+                    {
+                        ID = product.ID,
+                        SupplierID = product.SupplierID,
+                        ProductTypeID = product.ProductTypeID,
+                        BrandID = product.BrandID,
+                        ProductName = product.ProductName,
+                        Price = Convert.ToDecimal(product.Price),
+                        UpdateDate = product.UpdateDate,
+                        Config = product.Config,
+                        Describe = product.Describe,
+                        ImageURL = product.ImageURL,
+                        QuantityInStock = Convert.ToInt32(product.QuantityInStock),
+                        Status = product.Status,
+                        Discount = Convert.ToDecimal(product.Discount),
+                        Suppliers = context.Suppliers.ToList(),
+                        ProductTypes = context.ProductTypes.ToList(),
+                        Brands = context.Brands.ToList()
+                    };
+                    return View(productViewModel);
+                }
                 if (!context.Products.Any(p => p.ID == viewModel.ID))
                 {
                     return View(viewModel);
@@ -142,6 +174,10 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProductViewModel viewModel, HttpPostedFileBase file)
         {
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Signin", "AdminAccount");
+            }
             using (var context = new Context())
             {
                 if (!ModelState.IsValid)

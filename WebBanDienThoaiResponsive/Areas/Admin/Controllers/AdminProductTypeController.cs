@@ -61,8 +61,24 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Update(ProductTypeViewModel viewModel)
         {
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Singin", "AdminAccount");
+            }
             using (var context = new Context())
             {
+                if (!ModelState.IsValid)
+                {
+                    ProductType _productType = context.ProductTypes.Single(p => p.ID == viewModel.ID);
+                    ProductTypeViewModel _viewModel = new ProductTypeViewModel
+                    {
+                        ID = _productType.ID,
+                        ProductTypeName = _productType.ProductTypeName,
+                        IconURL = _productType.IconURL,
+                        Status = _productType.Status,
+                    };
+                    return View(viewModel);
+                }
                 ProductType productType = context.ProductTypes.FirstOrDefault(p => p.ID == viewModel.ID);
                 productType.ProductTypeName = viewModel.ProductTypeName;
                 productType.IconURL = viewModel.IconURL;
@@ -89,6 +105,10 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Singin", "AdminAccount");
+            }
             return View();
         }
 
@@ -96,6 +116,10 @@ namespace WebBanDienThoaiResponsive.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProductTypeViewModel viewModel)
         {
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Singin", "AdminAccount");
+            }
             using (var context = new Context())
             {
                 ProductType productType = new ProductType

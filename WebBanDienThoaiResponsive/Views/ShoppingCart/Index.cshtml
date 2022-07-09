@@ -61,11 +61,13 @@
                                 <div>Giá tiền:&nbsp;</div>
                                 <h5 class="font-weight-bold text-danger">@(Convert.ToInt32(item.Price).ToString("#,##")) đ</h5>
                             </div>
-                            <button type="button"
-                                    class="btn btn-danger mt-md-2"
-                                    onclick="location.href = '@Url.Action("RemoveItem", "ShoppingCart", new { ProductID = item.ID, CurrentURL = Request.Url.ToString() })'">
-                                Xoá khỏi giỏ hàng
-                            </button>
+                            @{
+                                <button type="button"
+                                        class="btn btn-danger mt-md-2"
+                                        onclick="location.href = '@Url.Action("RemoveItem", "ShoppingCart", new { ProductID = item.ID, CurrentURL = Request.Url.ToString() })'">
+                                    Xoá khỏi giỏ hàng
+                                </button>
+                            }
                         </div>
                         <div class="col-md-4">
                             <div class="font-weight-bold text-danger text-right" style="font-size: 22px;">@(Convert.ToInt32(item.Price * item.Quantity).ToString("#,##")) đ</div>
@@ -98,21 +100,31 @@
                     <h6>Tổng tiền:&nbsp;</h6>
                     <h6 class="font-weight-bold text-danger">@((sum + Convert.ToInt32(GetData("DeliveryFee"))).ToString("#,##")) đ</h6>
                 </div>
-                <button type="button"
-                        class="btn btn-danger btn-lg btn-block p-md-2 text-uppercase font-weight-bold mt-md-2"
-                        onclick="location.href = '@Url.Action("OrderingAction", "Order")'">
-                    Đặt hàng
-                </button>
-                <button type="button"
-                        class="btn btn-outline-info btn-lg btn-block p-md-2 text-uppercase font-weight-bold"
-                        onclick="location.href = '@Url.Action("Index", "Home")'">
-                    Chọn thêm
-                </button>
-                <button type="button"
-                        class="btn btn-outline-dark btn-lg btn-block p-md-2 text-uppercase font-weight-bold"
-                        onclick="location.href = '@Url.Action("RemoveAll", "ShoppingCart", new { CurrentURL = Request.Url.ToString() })'">
-                    Xoá tất cả
-                </button>
+                @using WebBanDienThoaiResponsive.ViewModels;
+                @{
+                    List<ShoppingCartViewModel> CartList = Session["Cart"] as List<ShoppingCartViewModel>;
+                    if (CartList.Count != 0)
+                    {
+                        <button type="button"
+                                class="btn btn-danger btn-lg btn-block p-md-2 text-uppercase font-weight-bold mt-md-2"
+                                onclick="location.href = '@Url.Action("OrderingAction", "Order")'">
+                            Đặt hàng
+                        </button>
+                    }
+                    <button type="button"
+                            class="btn btn-outline-info btn-lg btn-block p-md-2 text-uppercase font-weight-bold"
+                            onclick="location.href = '@Url.Action("Index", "Home")'">
+                        Chọn thêm
+                    </button>
+                    if (CartList.Count != 0)
+                    {
+                        <button type="button"
+                                class="btn btn-outline-dark btn-lg btn-block p-md-2 text-uppercase font-weight-bold"
+                                onclick="location.href = '@Url.Action("RemoveAll", "ShoppingCart", new { CurrentURL = Request.Url.ToString() })'">
+                            Xoá tất cả
+                        </button>
+                    }
+                }
             </div>
         </div>
     </div>

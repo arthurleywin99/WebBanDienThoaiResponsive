@@ -17,10 +17,7 @@ namespace WebBanDienThoaiResponsive.Controllers
             {
                 return RedirectToAction("Signin", "Account");
             }
-            else
-            {
-                return RedirectToAction("ShipmentDetails", "Order");
-            }
+            return RedirectToAction("ShipmentDetails", "Order");
         }
 
         [HttpGet]

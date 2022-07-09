@@ -48,6 +48,7 @@
                     <div class="rounded border border-1 pt-md-3 pl-md-3 pr-md-3 pb-md-1 mb-md-2">
                         <h5 class="font-weight-bold">Thông tin người đặt (Cho việc bảo hành)</h5>
                         @Html.TextBox("FullName", ViewBag.UserAccount.FullName as string, new { @class = "form-control mb-md-2", type = "text", placeholder = "Họ và tên (Bắt buộc)" })
+                        <p class="text-center text-danger"></p>
                         @Html.TextBox("PhoneNumber", ViewBag.UserAccount.PhoneNumber as string, new { @class = "form-control mb-md-2", type = "tel", placeholder = "Số điện thoại (Bắt buộc)" })
                         @Html.TextBox("Email", ViewBag.UserAccount.Email as string, new { @class = "form-control mb-md-2", type = "email", placeholder = "Email (Bắt buộc)" })
                     </div>
